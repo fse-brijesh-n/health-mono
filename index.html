@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MediCare | Hospital Management Portal</title>
-    <!-- Font Awesome 6 for professional icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         :root {
@@ -12,7 +11,6 @@
             --primary-dark: #0d47a1;
             --primary-light: #e3f2fd;
             --secondary: #00897b;
-            --accent: #f9a825;
             --danger: #c62828;
             --success: #2e7d32;
             --warning: #f57f17;
@@ -24,9 +22,7 @@
             --text: #1e293b;
             --text-secondary: #64748b;
             --border: #e2e8f0;
-            --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
-            --shadow: 0 4px 6px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.03);
-            --shadow-lg: 0 10px 25px rgba(0,0,0,0.08), 0 4px 10px rgba(0,0,0,0.05);
+            --shadow: 0 4px 6px rgba(0,0,0,0.05);
             --radius: 12px;
             --radius-sm: 8px;
             --transition: 0.2s ease;
@@ -40,7 +36,90 @@
             min-height: 100vh;
         }
 
-        /* ---------- SIDEBAR ---------- */
+        /* ---------- LOGIN SCREEN ---------- */
+        .login-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0d47a1 0%, #1565c0 100%);
+        }
+        .login-box {
+            background: #fff;
+            padding: 40px 36px;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 400px;
+        }
+        .login-box h2 {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+        .login-box .subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 28px;
+            font-size: 0.85rem;
+        }
+        .login-box .form-group {
+            margin-bottom: 18px;
+        }
+        .login-box label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 0.8rem;
+            color: var(--text);
+        }
+        .login-box input {
+            width: 100%;
+            padding: 10px 14px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+        .login-box input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(21,101,192,0.1);
+        }
+        .login-box .btn {
+            width: 100%;
+            padding: 10px;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .login-box .btn:hover {
+            background: var(--primary-dark);
+            box-shadow: 0 4px 12px rgba(21,101,192,0.35);
+        }
+        .login-error {
+            color: var(--danger);
+            font-size: 0.8rem;
+            margin-top: 8px;
+            display: none;
+        }
+
+        /* ---------- MAIN APP (hidden initially) ---------- */
+        .app-container {
+            display: flex;
+            width: 100%;
+            min-height: 100vh;
+        }
+        .hidden {
+            display: none !important;
+        }
+
+        /* Sidebar */
         .sidebar {
             width: 260px;
             background: var(--sidebar-bg);
@@ -51,7 +130,6 @@
             top: 0; left: 0; bottom: 0;
             z-index: 100;
             box-shadow: 2px 0 16px rgba(0,0,0,0.08);
-            transition: var(--transition);
         }
         .sidebar-logo {
             padding: 22px 20px;
@@ -107,7 +185,7 @@
             margin-bottom: 2px;
             text-decoration: none;
         }
-        .nav-item i { width: 20px; font-size: 1.1rem; text-align: center; color: inherit; }
+        .nav-item i { width: 20px; font-size: 1.1rem; text-align: center; }
         .nav-item:hover { background: var(--sidebar-hover); color: #fff; }
         .nav-item.active {
             background: var(--primary);
@@ -124,7 +202,7 @@
             font-weight: 600;
         }
 
-        /* ---------- MAIN CONTENT ---------- */
+        /* Main content */
         .main-content {
             margin-left: 260px;
             flex: 1;
@@ -151,7 +229,6 @@
             color: var(--text-secondary);
         }
 
-        /* ---------- STAT CARDS ---------- */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -166,12 +243,12 @@
             display: flex;
             align-items: center;
             gap: 16px;
-            transition: var(--transition);
             border: 1px solid transparent;
             cursor: pointer;
+            transition: var(--transition);
         }
         .stat-card:hover {
-            box-shadow: var(--shadow-lg);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
             transform: translateY(-2px);
             border-color: #e2e8f0;
         }
@@ -196,7 +273,6 @@
             font-weight: 500;
         }
 
-        /* ---------- CARDS & TABLES ---------- */
         .card {
             background: var(--card-bg);
             border-radius: var(--radius);
@@ -244,7 +320,6 @@
             border-radius: 20px;
             font-size: 0.72rem;
             font-weight: 600;
-            letter-spacing: 0.3px;
             display: inline-block;
         }
         .status-paid { background: #d1fae5; color: #065f46; }
@@ -252,7 +327,6 @@
         .status-confirmed { background: #dbeafe; color: #1e40af; }
         .status-cancelled { background: #fef3c7; color: #92400e; }
 
-        /* ---------- BUTTONS ---------- */
         .btn {
             padding: 8px 16px;
             border-radius: 8px;
@@ -282,7 +356,6 @@
         .btn-xs { padding: 4px 10px; font-size: 0.7rem; border-radius: 5px; }
         .btn-sm { padding: 6px 12px; font-size: 0.78rem; }
 
-        /* ---------- FORMS ---------- */
         .form-group { margin-bottom: 16px; }
         .form-group label {
             display: block;
@@ -314,7 +387,6 @@
         }
         @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
 
-        /* ---------- MODAL ---------- */
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -333,7 +405,7 @@
             padding: 28px 30px;
             width: 90%;
             max-width: 550px;
-            box-shadow: var(--shadow-lg);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
             animation: slideUp 0.25s ease;
             max-height: 85vh;
             overflow-y: auto;
@@ -342,7 +414,6 @@
         .modal h3 { font-size: 1.2rem; margin-bottom: 18px; font-weight: 700; }
         .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
 
-        /* ---------- TOAST ---------- */
         .toast-container {
             position: fixed;
             top: 20px; right: 20px;
@@ -357,7 +428,7 @@
             color: #fff;
             font-weight: 600;
             font-size: 0.82rem;
-            box-shadow: var(--shadow-lg);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
             animation: slideInRight 0.3s ease, fadeOutRight 0.3s ease 2.7s forwards;
             max-width: 400px;
         }
@@ -377,71 +448,97 @@
             background: #e2e8f0;
             margin: 2px;
         }
+        .loading { text-align: center; padding: 20px; color: var(--text-secondary); }
+
         @media (max-width: 900px) {
             .sidebar { width: 70px; }
-            .sidebar-logo h1, .nav-section-title, .nav-item span:not(.fa, .fas, .far), .badge { display: none; }
-            .sidebar-logo { justify-content: center; padding: 16px 8px; }
+            .sidebar-logo h1, .nav-section-title, .nav-item span:not(.fa), .badge { display: none; }
+            .sidebar-logo { justify-content: center; }
             .nav-item { justify-content: center; padding: 12px; }
-            .main-content { margin-left: 70px; padding: 20px 16px; }
-            .stats-grid { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
+            .main-content { margin-left: 70px; }
         }
         @media (max-width: 500px) {
             .sidebar { width: 0; overflow: hidden; }
-            .main-content { margin-left: 0; padding: 14px; }
-            .stats-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+            .main-content { margin-left: 0; }
         }
     </style>
 </head>
 <body>
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-        <div class="sidebar-logo" onclick="navigateTo('dashboard')">
-            <div class="logo-icon"><i class="fas fa-plus"></i></div>
-            <h1>Medi<span>Care</span></h1>
+    <!-- LOGIN SCREEN -->
+    <div id="login-screen" class="login-container">
+        <div class="login-box">
+            <h2>MediCare Portal</h2>
+            <p class="subtitle">Sign in to your account</p>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="login-email" value="admin@healthcare.com" placeholder="admin@healthcare.com">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="login-password" value="admin" placeholder="Enter password">
+            </div>
+            <button class="btn" id="login-btn">Sign In</button>
+            <p class="login-error" id="login-error">Invalid credentials</p>
         </div>
-        <nav class="sidebar-nav">
-            <div class="nav-section">
-                <div class="nav-section-title">Main</div>
-                <div class="nav-item active" data-page="dashboard" onclick="navigateTo('dashboard')">
-                    <i class="fas fa-th-large"></i> <span>Dashboard</span>
-                </div>
-            </div>
-            <div class="nav-section">
-                <div class="nav-section-title">Management</div>
-                <div class="nav-item" data-page="patients" onclick="navigateTo('patients')">
-                    <i class="fas fa-user-injured"></i> <span>Patients</span>
-                </div>
-                <div class="nav-item" data-page="doctors" onclick="navigateTo('doctors')">
-                    <i class="fas fa-user-md"></i> <span>Doctors</span>
-                </div>
-                <div class="nav-item" data-page="appointments" onclick="navigateTo('appointments')">
-                    <i class="fas fa-calendar-check"></i> <span>Appointments</span>
-                    <span class="badge" id="appt-badge" style="display:none;">0</span>
-                </div>
-            </div>
-            <div class="nav-section">
-                <div class="nav-section-title">Records</div>
-                <div class="nav-item" data-page="ehr" onclick="navigateTo('ehr')">
-                    <i class="fas fa-notes-medical"></i> <span>EHR</span>
-                </div>
-                <div class="nav-item" data-page="prescriptions" onclick="navigateTo('prescriptions')">
-                    <i class="fas fa-prescription"></i> <span>Prescriptions</span>
-                </div>
-            </div>
-            <div class="nav-section">
-                <div class="nav-section-title">Finance</div>
-                <div class="nav-item" data-page="billing" onclick="navigateTo('billing')">
-                    <i class="fas fa-file-invoice-dollar"></i> <span>Billing</span>
-                </div>
-                <div class="nav-item" data-page="insurance" onclick="navigateTo('insurance')">
-                    <i class="fas fa-shield-alt"></i> <span>Insurance</span>
-                </div>
-            </div>
-        </nav>
-    </aside>
+    </div>
 
-    <!-- MAIN CONTENT -->
-    <main class="main-content" id="main-content"></main>
+    <!-- MAIN APPLICATION (hidden initially) -->
+    <div id="app-container" class="app-container hidden">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-logo" onclick="navigateTo('dashboard')">
+                <div class="logo-icon"><i class="fas fa-plus"></i></div>
+                <h1>Medi<span>Care</span></h1>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">Main</div>
+                    <div class="nav-item active" data-page="dashboard" onclick="navigateTo('dashboard')">
+                        <i class="fas fa-th-large"></i> <span>Dashboard</span>
+                    </div>
+                </div>
+                <div class="nav-section">
+                    <div class="nav-section-title">Management</div>
+                    <div class="nav-item" data-page="patients" onclick="navigateTo('patients')">
+                        <i class="fas fa-user-injured"></i> <span>Patients</span>
+                    </div>
+                    <div class="nav-item" data-page="doctors" onclick="navigateTo('doctors')">
+                        <i class="fas fa-user-md"></i> <span>Doctors</span>
+                    </div>
+                    <div class="nav-item" data-page="appointments" onclick="navigateTo('appointments')">
+                        <i class="fas fa-calendar-check"></i> <span>Appointments</span>
+                        <span class="badge" id="appt-badge" style="display:none;">0</span>
+                    </div>
+                </div>
+                <div class="nav-section">
+                    <div class="nav-section-title">Records</div>
+                    <div class="nav-item" data-page="ehr" onclick="navigateTo('ehr')">
+                        <i class="fas fa-notes-medical"></i> <span>EHR</span>
+                    </div>
+                    <div class="nav-item" data-page="prescriptions" onclick="navigateTo('prescriptions')">
+                        <i class="fas fa-prescription"></i> <span>Prescriptions</span>
+                    </div>
+                </div>
+                <div class="nav-section">
+                    <div class="nav-section-title">Finance</div>
+                    <div class="nav-item" data-page="billing" onclick="navigateTo('billing')">
+                        <i class="fas fa-file-invoice-dollar"></i> <span>Billing</span>
+                    </div>
+                    <div class="nav-item" data-page="insurance" onclick="navigateTo('insurance')">
+                        <i class="fas fa-shield-alt"></i> <span>Insurance</span>
+                    </div>
+                </div>
+                <div class="nav-section" style="margin-top:auto;">
+                    <div class="nav-item" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i> <span>Logout</span>
+                    </div>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content" id="main-content"></main>
+    </div>
 
     <!-- TOAST CONTAINER -->
     <div class="toast-container" id="toast-container"></div>
@@ -453,85 +550,15 @@
 
     <script>
         (function() {
-            // ---------- DATABASE ----------
-            const DB_KEY = 'medicare_db_full_v2';
-            function getDB() {
-                const raw = localStorage.getItem(DB_KEY);
-                if (raw) return JSON.parse(raw);
-                const initial = {
-                    patients: [],
-                    doctors: [],
-                    appointments: [],
-                    ehr: [],
-                    prescriptions: [],
-                    bills: [],
-                    idCounter: { patients:0, doctors:0, appointments:0, ehr:0, prescriptions:0, bills:0 }
-                };
-                saveDB(initial);
-                return initial;
-            }
-            function saveDB(db) { localStorage.setItem(DB_KEY, JSON.stringify(db)); }
-            function generateId(entity) {
-                const db = getDB();
-                db.idCounter[entity] = (db.idCounter[entity] || 0) + 1;
-                saveDB(db);
-                return db.idCounter[entity];
-            }
+            // ---------- CONFIGURATION ----------
+            const API_BASE_URL = 'http://localhost:8080'; // Change to your API base URL
 
-            // Seed initial data
-            function seedIfEmpty() {
-                const db = getDB();
-                if (db.patients.length === 0) {
-                    db.patients = [
-                        { id: generateId('patients'), name: 'Brijesh Kumar', phone: '9876543210', email: 'brijesh@gmail.com', policyNumber: 'HDFC123' },
-                        { id: generateId('patients'), name: 'Priya Sharma', phone: '9123456780', email: 'priya@gmail.com', policyNumber: 'ICICI456' },
-                        { id: generateId('patients'), name: 'Amit Patel', phone: '9988776655', email: 'amit@gmail.com', policyNumber: 'STAR789' }
-                    ];
-                    db.doctors = [
-                        { id: generateId('doctors'), name: 'Dr. Rajesh Sharma', specialization: 'Cardiology', availableSlots: ['09:00','10:00','11:00','14:00'] },
-                        { id: generateId('doctors'), name: 'Dr. Sneha Gupta', specialization: 'Neurology', availableSlots: ['10:00','12:00','15:00'] },
-                        { id: generateId('doctors'), name: 'Dr. Vikram Singh', specialization: 'Orthopedics', availableSlots: ['09:00','11:00','16:00'] },
-                        { id: generateId('doctors'), name: 'Dr. Ananya Reddy', specialization: 'Pediatrics', availableSlots: ['08:00','10:00','13:00','17:00'] }
-                    ];
-                    db.appointments = [
-                        { id: generateId('appointments'), patientId:1, doctorId:1, patientName:'Brijesh Kumar', doctorName:'Dr. Rajesh Sharma', date:'2026-06-12', time:'10:00', status:'confirmed' },
-                        { id: generateId('appointments'), patientId:2, doctorId:2, patientName:'Priya Sharma', doctorName:'Dr. Sneha Gupta', date:'2026-06-13', time:'12:00', status:'confirmed' }
-                    ];
-                    db.ehr = [
-                        { id: generateId('ehr'), patientId:1, patientName:'Brijesh Kumar', diagnosis:'Viral Fever', treatment:'Paracetamol 500mg', visitDate:'2026-06-12' }
-                    ];
-                    db.prescriptions = [
-                        { id: generateId('prescriptions'), patientId:1, patientName:'Brijesh Kumar', medicines:'Paracetamol 500mg', dosage:'2 times/day', doctorNotes:'After meal', date:'2026-06-12' }
-                    ];
-                    db.bills = [
-                        { id: generateId('bills'), patientId:1, patientName:'Brijesh Kumar', amount:1000, policyNumber:'HDFC123', discountedAmount:500, status:'UNPAID', date:'2026-06-12' },
-                        { id: generateId('bills'), patientId:2, patientName:'Priya Sharma', amount:2000, policyNumber:'ICICI456', discountedAmount:2000, status:'PAID', date:'2026-06-13' }
-                    ];
-                    db.idCounter = { patients:3, doctors:4, appointments:2, ehr:1, prescriptions:1, bills:2 };
-                    saveDB(db);
-                }
-            }
-            seedIfEmpty();
+            // ---------- AUTH ----------
+            const VALID_EMAIL = 'admin@healthcare.com';
+            const VALID_PASSWORD = 'admin';
+            let isAuthenticated = false;
 
-            // ---------- NAVIGATION ----------
-            let currentPage = 'dashboard';
-            window.navigateTo = function(page) {
-                currentPage = page;
-                document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-                const navItem = document.querySelector(`[data-page="${page}"]`);
-                if (navItem) navItem.classList.add('active');
-                renderPage(page);
-                updateBadges();
-            };
-            function updateBadges() {
-                const db = getDB();
-                const pending = db.appointments.filter(a => a.status === 'confirmed').length;
-                const badge = document.getElementById('appt-badge');
-                if (pending > 0) { badge.style.display = 'inline'; badge.textContent = pending; }
-                else { badge.style.display = 'none'; }
-            }
-
-            // ---------- TOAST ----------
+            // ---------- UI HELPERS ----------
             function showToast(msg, type='info') {
                 const container = document.getElementById('toast-container');
                 const toast = document.createElement('div');
@@ -539,6 +566,10 @@
                 toast.textContent = msg;
                 container.appendChild(toast);
                 setTimeout(() => toast.remove(), 3000);
+            }
+
+            function showLoading(container) {
+                container.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading...</div>';
             }
 
             // ---------- MODAL ----------
@@ -584,7 +615,61 @@
                 });
             }
 
-            // ---------- RENDER PAGES ----------
+            // ---------- API CALLS ----------
+            async function apiGet(endpoint) {
+                const res = await fetch(`${API_BASE_URL}${endpoint}`);
+                if (!res.ok) throw new Error(`GET ${endpoint} failed: ${res.status}`);
+                return res.json();
+            }
+
+            async function apiPost(endpoint, data) {
+                const res = await fetch(`${API_BASE_URL}${endpoint}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                if (!res.ok) throw new Error(`POST ${endpoint} failed: ${res.status}`);
+                return res.json();
+            }
+
+            async function apiPut(endpoint, data) {
+                const res = await fetch(`${API_BASE_URL}${endpoint}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                if (!res.ok) throw new Error(`PUT ${endpoint} failed: ${res.status}`);
+                return res.json();
+            }
+
+            async function apiDelete(endpoint) {
+                const res = await fetch(`${API_BASE_URL}${endpoint}`, { method: 'DELETE' });
+                if (!res.ok) throw new Error(`DELETE ${endpoint} failed: ${res.status}`);
+            }
+
+            // ---------- NAVIGATION ----------
+            let currentPage = 'dashboard';
+            window.navigateTo = function(page) {
+                if (!isAuthenticated) return;
+                currentPage = page;
+                document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+                const navItem = document.querySelector(`[data-page="${page}"]`);
+                if (navItem) navItem.classList.add('active');
+                renderPage(page);
+            };
+
+            function updateBadges() {
+                if (!isAuthenticated) return;
+                apiGet('/appointments').then(resp => {
+                    const appointments = resp.data || [];
+                    const pending = appointments.filter(a => a.status === 'confirmed').length;
+                    const badge = document.getElementById('appt-badge');
+                    if (pending > 0) { badge.style.display = 'inline'; badge.textContent = pending; }
+                    else { badge.style.display = 'none'; }
+                }).catch(() => {});
+            }
+
+            // ---------- RENDER ENGINE ----------
             function renderPage(page) {
                 const container = document.getElementById('main-content');
                 switch(page) {
@@ -596,495 +681,530 @@
                     case 'prescriptions': renderPrescriptions(container); break;
                     case 'billing': renderBilling(container); break;
                     case 'insurance': renderInsurance(container); break;
-                    default: renderDashboard(container);
                 }
                 updateBadges();
             }
 
             // ---------- DASHBOARD ----------
             function renderDashboard(container) {
-                const db = getDB();
-                const stats = [
-                    { label:'Patients', count:db.patients.length, icon:'fa-user-injured', color:'#1565c0', bg:'#e3f2fd', page:'patients' },
-                    { label:'Doctors', count:db.doctors.length, icon:'fa-user-md', color:'#00897b', bg:'#e0f2f1', page:'doctors' },
-                    { label:'Appointments', count:db.appointments.length, icon:'fa-calendar-check', color:'#6a1b9a', bg:'#f3e5f5', page:'appointments' },
-                    { label:'Pending Bills', count:db.bills.filter(b=>b.status==='UNPAID').length, icon:'fa-file-invoice', color:'#c62828', bg:'#ffebee', page:'billing' },
-                    { label:'EHR Records', count:db.ehr.length, icon:'fa-notes-medical', color:'#f57f17', bg:'#fff8e1', page:'ehr' },
-                    { label:'Prescriptions', count:db.prescriptions.length, icon:'fa-prescription', color:'#2e7d32', bg:'#e8f5e9', page:'prescriptions' }
-                ];
-                container.innerHTML = `
-                    <div class="page-header">
-                        <div><h2>Dashboard</h2><p class="breadcrumb">Overview of hospital activities</p></div>
-                        <span style="color:#64748b;">${new Date().toLocaleDateString('en-IN',{weekday:'long',year:'numeric',month:'long',day:'numeric'})}</span>
-                    </div>
-                    <div class="stats-grid">
-                        ${stats.map(s=>`
-                            <div class="stat-card" onclick="navigateTo('${s.page}')">
-                                <div class="stat-icon" style="background:${s.bg}; color:${s.color};"><i class="fas ${s.icon}"></i></div>
-                                <div class="stat-info"><h3>${s.count}</h3><p>${s.label}</p></div>
-                            </div>
-                        `).join('')}
-                    </div>
-                    <div class="card">
-                        <div class="card-header"><h3><i class="fas fa-clock"></i> Recent Appointments</h3></div>
-                        ${db.appointments.length===0 ? '<div class="empty-state">No appointments yet.</div>' : `
-                        <table><thead><tr><th>ID</th><th>Patient</th><th>Doctor</th><th>Date</th><th>Time</th><th>Status</th></tr></thead>
-                        <tbody>${db.appointments.slice(-5).reverse().map(a=>`
-                            <tr>
-                                <td>#${a.id}</td><td>${a.patientName}</td><td>${a.doctorName}</td>
-                                <td>${a.date}</td><td>${a.time}</td>
-                                <td><span class="status-badge status-${a.status}">${a.status}</span></td>
-                            </tr>`).join('')}</tbody></table>`}
-                    </div>
-                `;
+                container.innerHTML = '<div class="page-header"><h2>Dashboard</h2></div><div class="stats-grid" id="stats-cards"></div>';
+                Promise.all([
+                    apiGet('/patients').catch(() => ({data:[]})),
+                    apiGet('/doctors').catch(() => ({data:[]})),
+                    apiGet('/appointments').catch(() => ({data:[]})),
+                    apiGet('/billing').catch(() => ({data:[]})),
+                    apiGet('/ehr').catch(() => ({data:[]})),
+                    apiGet('/prescriptions').catch(() => ({data:[]}))
+                ]).then(([patients, doctors, appointments, bills, ehr, prescriptions]) => {
+                    const p = patients.data || [];
+                    const d = doctors.data || [];
+                    const a = appointments.data || [];
+                    const b = bills.data || [];
+                    const e = ehr.data || [];
+                    const pr = prescriptions.data || [];
+                    const pendingBills = b.filter(bill => bill.status === 'UNPAID').length;
+                    const stats = [
+                        { label:'Patients', count:p.length, icon:'fa-user-injured', color:'#1565c0', bg:'#e3f2fd', page:'patients' },
+                        { label:'Doctors', count:d.length, icon:'fa-user-md', color:'#00897b', bg:'#e0f2f1', page:'doctors' },
+                        { label:'Appointments', count:a.length, icon:'fa-calendar-check', color:'#6a1b9a', bg:'#f3e5f5', page:'appointments' },
+                        { label:'Pending Bills', count:pendingBills, icon:'fa-file-invoice', color:'#c62828', bg:'#ffebee', page:'billing' },
+                        { label:'EHR Records', count:e.length, icon:'fa-notes-medical', color:'#f57f17', bg:'#fff8e1', page:'ehr' },
+                        { label:'Prescriptions', count:pr.length, icon:'fa-prescription', color:'#2e7d32', bg:'#e8f5e9', page:'prescriptions' }
+                    ];
+                    document.getElementById('stats-cards').innerHTML = stats.map(s => `
+                        <div class="stat-card" onclick="navigateTo('${s.page}')">
+                            <div class="stat-icon" style="background:${s.bg}; color:${s.color};"><i class="fas ${s.icon}"></i></div>
+                            <div class="stat-info"><h3>${s.count}</h3><p>${s.label}</p></div>
+                        </div>
+                    `).join('');
+                }).catch(err => showToast('Failed to load dashboard', 'error'));
             }
 
-            // ---------- PATIENTS ----------
+            // ---------- PATIENTS with integrated appointment booking ----------
             function renderPatients(container) {
-                const db = getDB();
-                container.innerHTML = `
-                    <div class="page-header">
-                        <div><h2><i class="fas fa-user-injured"></i> Patients</h2></div>
-                        <button class="btn btn-primary" onclick="showPatientForm()"><i class="fas fa-plus"></i> Add Patient</button>
-                    </div>
-                    <div class="card">
-                        <div class="card-header"><h3>All Patients (${db.patients.length})</h3></div>
-                        ${db.patients.length===0 ? '<div class="empty-state">No patients registered.</div>' : `
-                        <table><thead><tr><th>ID</th><th>Name</th><th>Phone</th><th>Email</th><th>Policy #</th><th>Actions</th></tr></thead>
-                        <tbody>${db.patients.map(p=>`
-                            <tr>
-                                <td>#${p.id}</td><td><strong>${p.name}</strong></td>
-                                <td>${p.phone}</td><td>${p.email}</td>
-                                <td><span class="tag">${p.policyNumber||'N/A'}</span></td>
-                                <td>
-                                    <button class="btn btn-outline btn-xs" onclick="showPatientForm(${p.id})"><i class="fas fa-edit"></i></button>
-                                    <button class="btn btn-danger btn-xs" onclick="deletePatient(${p.id})"><i class="fas fa-trash"></i></button>
-                                </td>
-                            </tr>`).join('')}</tbody></table>`}
-                    </div>
-                `;
+                showLoading(container);
+                apiGet('/patients').then(resp => {
+                    const patients = resp.data || [];
+                    container.innerHTML = `
+                        <div class="page-header">
+                            <div><h2>Patients</h2></div>
+                            <div style="display:flex; gap:8px;">
+                                <button class="btn btn-primary" onclick="showPatientForm()"><i class="fas fa-plus"></i> Add Patient</button>
+                                <button class="btn btn-outline" onclick="bookAppointmentForPatient()"><i class="fas fa-calendar-check"></i> Book Appointment</button>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header"><h3>All Patients (${patients.length})</h3></div>
+                            ${patients.length===0 ? '<div class="empty-state">No patients registered.</div>' : `
+                            <table><thead><tr><th>ID</th><th>Name</th><th>Phone</th><th>Email</th><th>Policy #</th><th>Actions</th></tr></thead>
+                            <tbody>${patients.map(p=>`
+                                <tr>
+                                    <td>#${p.id}</td><td><strong>${p.name}</strong></td>
+                                    <td>${p.phone}</td><td>${p.email}</td>
+                                    <td><span class="tag">${p.policyNumber||'N/A'}</span></td>
+                                    <td style="display:flex; gap:4px; flex-wrap:wrap;">
+                                        <button class="btn btn-success btn-xs" onclick="bookAppointmentForPatient(${p.id})"><i class="fas fa-calendar-plus"></i> Book</button>
+                                        <button class="btn btn-outline btn-xs" onclick="editPatient(${p.id})"><i class="fas fa-edit"></i></button>
+                                        <button class="btn btn-danger btn-xs" onclick="deletePatient(${p.id})"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>`).join('')}</tbody></table>`}
+                        </div>
+                    `;
+                }).catch(() => showToast('Failed to load patients', 'error'));
             }
-            window.showPatientForm = function(editId=null) {
-                const db = getDB();
-                const patient = editId ? db.patients.find(p=>p.id===editId) : null;
+
+            window.showPatientForm = function() {
                 const body = `
-                    <div class="form-group"><label>Full Name</label><input id="pname" value="${patient?patient.name:''}" required></div>
+                    <div class="form-group"><label>Full Name</label><input id="pname" required></div>
                     <div class="form-row">
-                        <div class="form-group"><label>Phone</label><input id="pphone" value="${patient?patient.phone:''}"></div>
-                        <div class="form-group"><label>Email</label><input id="pemail" value="${patient?patient.email:''}"></div>
+                        <div class="form-group"><label>Phone</label><input id="pphone"></div>
+                        <div class="form-group"><label>Email</label><input id="pemail"></div>
                     </div>
-                    <div class="form-group"><label>Policy Number</label><input id="ppolicy" value="${patient?patient.policyNumber:''}"></div>
+                    <div class="form-group"><label>Policy Number</label><input id="ppolicy"></div>
                 `;
-                openModal(editId?'Edit Patient':'New Patient', body, () => {
+                openModal('New Patient', body, async () => {
                     const name = document.getElementById('pname').value.trim();
                     const phone = document.getElementById('pphone').value.trim();
                     const email = document.getElementById('pemail').value.trim();
                     const policy = document.getElementById('ppolicy').value.trim();
-                    if(!name) { showToast('Name is required','error'); return; }
-                    const db = getDB();
-                    if(editId) {
-                        const idx = db.patients.findIndex(p=>p.id===editId);
-                        if(idx>-1) { db.patients[idx] = {...db.patients[idx], name, phone, email, policyNumber:policy}; saveDB(db); showToast('Patient updated','success'); }
-                    } else {
-                        const newPatient = { id: generateId('patients'), name, phone, email, policyNumber:policy };
-                        db.patients.push(newPatient); saveDB(db); showToast('Patient created','success');
-                    }
-                    renderPage('patients');
+                    if(!name) { showToast('Name required','error'); return; }
+                    try {
+                        await apiPost('/patients', { name, phone, email, policyNumber: policy });
+                        showToast('Patient created','success');
+                        renderPage('patients');
+                    } catch(e) { showToast(e.message,'error'); }
                 });
             };
+
+            window.editPatient = function(id) {
+                apiGet(`/patients/${id}`).then(resp => {
+                    const p = resp.data;
+                    const body = `
+                        <div class="form-group"><label>Name</label><input id="pname" value="${p.name}" required></div>
+                        <div class="form-row">
+                            <div class="form-group"><label>Phone</label><input id="pphone" value="${p.phone||''}"></div>
+                            <div class="form-group"><label>Email</label><input id="pemail" value="${p.email||''}"></div>
+                        </div>
+                        <div class="form-group"><label>Policy Number</label><input id="ppolicy" value="${p.policyNumber||''}"></div>
+                    `;
+                    openModal('Edit Patient', body, async () => {
+                        const name = document.getElementById('pname').value.trim();
+                        const phone = document.getElementById('pphone').value.trim();
+                        const email = document.getElementById('pemail').value.trim();
+                        const policy = document.getElementById('ppolicy').value.trim();
+                        try {
+                            await apiPut(`/patients/${id}`, { name, phone, email, policyNumber: policy });
+                            showToast('Patient updated','success');
+                            renderPage('patients');
+                        } catch(e) { showToast(e.message,'error'); }
+                    });
+                }).catch(() => showToast('Failed to fetch patient','error'));
+            };
+
             window.deletePatient = function(id) {
-                confirmDelete('Remove this patient and all related records?', ()=>{
-                    const db = getDB();
-                    db.patients = db.patients.filter(p=>p.id!==id);
-                    saveDB(db); showToast('Patient deleted','info'); renderPage('patients');
+                confirmDelete('Delete this patient?', async () => {
+                    try {
+                        await apiDelete(`/patients/${id}`);
+                        showToast('Patient deleted','info');
+                        renderPage('patients');
+                    } catch(e) { showToast(e.message,'error'); }
                 });
+            };
+
+            // ---------- BOOK APPOINTMENT FROM PATIENT SECTION ----------
+            window.bookAppointmentForPatient = function(patientId = null) {
+                Promise.all([apiGet('/patients'), apiGet('/doctors')]).then(([pResp, dResp]) => {
+                    const patients = pResp.data || [];
+                    const doctors = dResp.data || [];
+                    const patientSelect = patientId
+                        ? `<select id="apt-patient" disabled>
+                            ${patients.map(p=>`<option value="${p.id}" ${p.id===patientId?'selected':''}>${p.name}</option>`).join('')}
+                           </select>`
+                        : `<select id="apt-patient">
+                            ${patients.map(p=>`<option value="${p.id}">${p.name}</option>`).join('')}
+                           </select>`;
+                    const body = `
+                        <div class="form-group"><label>Patient</label>${patientSelect}</div>
+                        <div class="form-group"><label>Doctor</label><select id="apt-doctor" onchange="updateSlotsHint()">
+                            ${doctors.map(d=>`<option value="${d.id}">${d.name} - ${d.specialization}</option>`).join('')}
+                        </select></div>
+                        <div class="form-row">
+                            <div class="form-group"><label>Date</label><input type="date" id="apt-date"></div>
+                            <div class="form-group"><label>Time</label><input type="time" id="apt-time" step="60">
+                            <small id="apt-slots-hint" style="color:#64748b;"></small></div>
+                        </div>
+                    `;
+                    openModal('Book Appointment', body, async () => {
+                        const selPatientId = parseInt(document.getElementById('apt-patient').value);
+                        const doctorId = parseInt(document.getElementById('apt-doctor').value);
+                        const date = document.getElementById('apt-date').value;
+                        const time = document.getElementById('apt-time').value.substring(0,5);
+                        if(!date || !time) { showToast('Date and time required','error'); return; }
+                        try {
+                            await apiPost('/appointments/book', { patientId: selPatientId, doctorId, date, time });
+                            showToast('Appointment booked','success');
+                            renderPage('appointments');
+                        } catch(e) { showToast(e.message,'error'); }
+                    });
+                    window.updateSlotsHint = function() {
+                        const docId = parseInt(document.getElementById('apt-doctor').value);
+                        const doc = doctors.find(d=>d.id===docId);
+                        const hint = document.getElementById('apt-slots-hint');
+                        hint.textContent = doc ? 'Available slots: '+(doc.availableSlots||[]).join(', ') : '';
+                    };
+                    setTimeout(() => updateSlotsHint(), 50);
+                }).catch(() => showToast('Failed to load data','error'));
             };
 
             // ---------- DOCTORS ----------
             function renderDoctors(container) {
-                const db = getDB();
-                container.innerHTML = `
-                    <div class="page-header">
-                        <div><h2><i class="fas fa-user-md"></i> Doctors</h2></div>
-                        <button class="btn btn-primary" onclick="showDoctorForm()"><i class="fas fa-plus"></i> Add Doctor</button>
-                    </div>
-                    <div class="card">
-                        <div class="card-header"><h3>All Doctors (${db.doctors.length})</h3>
-                        <div style="display:flex; gap:8px;">
-                            <input type="text" id="slot-filter" placeholder="Filter by slot (e.g. 10:00)" style="padding:6px 10px; border:2px solid #ccc; border-radius:6px; width:180px;">
-                            <button class="btn btn-sm btn-outline" onclick="filterDoctorsBySlot()">Check Availability</button>
-                        </div></div>
-                        <div id="doctor-table-container">${renderDoctorTable(db.doctors)}</div>
-                    </div>
-                `;
+                showLoading(container);
+                apiGet('/doctors').then(resp => {
+                    const doctors = resp.data || [];
+                    container.innerHTML = `
+                        <div class="page-header">
+                            <div><h2>Doctors</h2></div>
+                            <button class="btn btn-primary" onclick="showDoctorForm()"><i class="fas fa-plus"></i> Add Doctor</button>
+                        </div>
+                        <div class="card">
+                            <div class="card-header"><h3>All Doctors (${doctors.length})</h3>
+                            <div style="display:flex; gap:8px;">
+                                <input type="text" id="slot-filter" placeholder="Filter by slot (e.g. 10:00)" style="padding:6px; border:1px solid #ccc; border-radius:6px; width:180px;">
+                                <button class="btn btn-sm btn-outline" onclick="filterDoctorsBySlot()">Check</button>
+                            </div></div>
+                            <div id="doctor-table">${renderDoctorTable(doctors)}</div>
+                        </div>
+                    `;
+                }).catch(() => showToast('Failed to load doctors','error'));
             }
             function renderDoctorTable(doctors) {
-                if(doctors.length===0) return '<div class="empty-state">No doctors found.</div>';
-                return `<table><thead><tr><th>ID</th><th>Name</th><th>Specialization</th><th>Available Slots</th><th>Actions</th></tr></thead>
+                if(!doctors.length) return '<div class="empty-state">No doctors.</div>';
+                return `<table><thead><tr><th>ID</th><th>Name</th><th>Specialization</th><th>Slots</th><th>Actions</th></tr></thead>
                 <tbody>${doctors.map(d=>`
-                    <tr>
-                        <td>#${d.id}</td><td><strong>${d.name}</strong></td><td>${d.specialization}</td>
-                        <td>${(d.availableSlots||[]).map(s=>`<span class="tag">${s}</span>`).join(' ')}</td>
-                        <td>
-                            <button class="btn btn-outline btn-xs" onclick="showDoctorForm(${d.id})"><i class="fas fa-edit"></i></button>
-                            <button class="btn btn-danger btn-xs" onclick="deleteDoctor(${d.id})"><i class="fas fa-trash"></i></button>
-                        </td>
-                    </tr>`).join('')}</tbody></table>`;
+                    <tr><td>#${d.id}</td><td><strong>${d.name}</strong></td><td>${d.specialization}</td>
+                    <td>${(d.availableSlots||[]).map(s=>`<span class="tag">${s}</span>`).join(' ')}</td>
+                    <td><button class="btn btn-outline btn-xs" onclick="editDoctor(${d.id})"><i class="fas fa-edit"></i></button>
+                    <button class="btn btn-danger btn-xs" onclick="deleteDoctor(${d.id})"><i class="fas fa-trash"></i></button></td></tr>`).join('')}</tbody></table>`;
             }
             window.filterDoctorsBySlot = function() {
                 const slot = document.getElementById('slot-filter').value.trim();
-                const db = getDB();
-                if(!slot) { document.getElementById('doctor-table-container').innerHTML = renderDoctorTable(db.doctors); return; }
-                const filtered = db.doctors.filter(d => (d.availableSlots||[]).includes(slot));
-                document.getElementById('doctor-table-container').innerHTML = renderDoctorTable(filtered);
-                showToast(`Found ${filtered.length} doctor(s) available at ${slot}`, 'info');
+                if(!slot) { renderDoctors(document.getElementById('main-content')); return; }
+                apiGet(`/doctors/available?slot=${slot}`).then(resp => {
+                    document.getElementById('doctor-table').innerHTML = renderDoctorTable(resp.data||[]);
+                }).catch(() => showToast('Filter failed','error'));
             };
-            window.showDoctorForm = function(editId=null) {
-                const db = getDB();
-                const doctor = editId ? db.doctors.find(d=>d.id===editId) : null;
+            window.showDoctorForm = function() {
                 const body = `
-                    <div class="form-group"><label>Full Name</label><input id="dname" value="${doctor?doctor.name:''}" required></div>
-                    <div class="form-group"><label>Specialization</label><input id="dspec" value="${doctor?doctor.specialization:''}"></div>
-                    <div class="form-group"><label>Available Slots (comma separated, 24h format)</label>
-                    <input id="dslots" value="${doctor?(doctor.availableSlots||[]).join(','):''}" placeholder="09:00,10:00,14:00"></div>
+                    <div class="form-group"><label>Name</label><input id="dname" required></div>
+                    <div class="form-group"><label>Specialization</label><input id="dspec"></div>
+                    <div class="form-group"><label>Slots (comma separated)</label><input id="dslots" placeholder="09:00,10:00,14:00"></div>
                 `;
-                openModal(editId?'Edit Doctor':'New Doctor', body, () => {
+                openModal('New Doctor', body, async () => {
                     const name = document.getElementById('dname').value.trim();
                     const spec = document.getElementById('dspec').value.trim();
-                    const slotsRaw = document.getElementById('dslots').value.trim();
-                    const slots = slotsRaw ? slotsRaw.split(',').map(s=>s.trim()).filter(s=>s) : [];
-                    if(!name) { showToast('Name is required','error'); return; }
-                    const db = getDB();
-                    if(editId) {
-                        const idx = db.doctors.findIndex(d=>d.id===editId);
-                        if(idx>-1) { db.doctors[idx] = {...db.doctors[idx], name, specialization:spec, availableSlots:slots}; saveDB(db); showToast('Doctor updated','success'); }
-                    } else {
-                        const newDoctor = { id: generateId('doctors'), name, specialization:spec, availableSlots:slots };
-                        db.doctors.push(newDoctor); saveDB(db); showToast('Doctor created','success');
-                    }
-                    renderPage('doctors');
+                    const slots = document.getElementById('dslots').value.split(',').map(s=>s.trim()).filter(s=>s);
+                    try {
+                        await apiPost('/doctors', { name, specialization: spec, availableSlots: slots });
+                        showToast('Doctor created','success');
+                        renderPage('doctors');
+                    } catch(e) { showToast(e.message,'error'); }
                 });
             };
+            window.editDoctor = function(id) {
+                apiGet(`/doctors/${id}`).then(resp => {
+                    const d = resp.data;
+                    const body = `
+                        <div class="form-group"><label>Name</label><input id="dname" value="${d.name}" required></div>
+                        <div class="form-group"><label>Specialization</label><input id="dspec" value="${d.specialization||''}"></div>
+                        <div class="form-group"><label>Slots</label><input id="dslots" value="${(d.availableSlots||[]).join(',')}"></div>
+                    `;
+                    openModal('Edit Doctor', body, async () => {
+                        const name = document.getElementById('dname').value.trim();
+                        const spec = document.getElementById('dspec').value.trim();
+                        const slots = document.getElementById('dslots').value.split(',').map(s=>s.trim()).filter(s=>s);
+                        try {
+                            await apiPut(`/doctors/${id}`, { name, specialization: spec, availableSlots: slots });
+                            showToast('Doctor updated','success');
+                            renderPage('doctors');
+                        } catch(e) { showToast(e.message,'error'); }
+                    });
+                }).catch(() => showToast('Failed to fetch doctor','error'));
+            };
             window.deleteDoctor = function(id) {
-                confirmDelete('Remove this doctor?', ()=>{
-                    const db = getDB();
-                    db.doctors = db.doctors.filter(d=>d.id!==id);
-                    saveDB(db); showToast('Doctor deleted','info'); renderPage('doctors');
+                confirmDelete('Delete this doctor?', async () => {
+                    try {
+                        await apiDelete(`/doctors/${id}`);
+                        showToast('Doctor deleted','info');
+                        renderPage('doctors');
+                    } catch(e) { showToast(e.message,'error'); }
                 });
             };
 
             // ---------- APPOINTMENTS ----------
             function renderAppointments(container) {
-                const db = getDB();
-                container.innerHTML = `
-                    <div class="page-header">
-                        <div><h2><i class="fas fa-calendar-check"></i> Appointments</h2></div>
-                        <button class="btn btn-primary" onclick="showBookAppointmentModal()"><i class="fas fa-plus"></i> Book Appointment</button>
-                    </div>
-                    <div class="card">
-                        <div class="card-header"><h3>All Appointments (${db.appointments.length})</h3>
-                        <select id="appt-filter" onchange="filterAppointments()" style="padding:6px 10px; border-radius:6px; border:1px solid #ccc;">
-                            <option value="all">All</option>
-                            <option value="confirmed">Confirmed</option>
-                            <option value="cancelled">Cancelled</option>
-                        </select></div>
-                        <div id="appt-table-container">${renderAppointmentTable(db.appointments)}</div>
-                    </div>
-                `;
+                showLoading(container);
+                apiGet('/appointments').then(resp => {
+                    const appointments = resp.data || [];
+                    container.innerHTML = `
+                        <div class="page-header">
+                            <div><h2>Appointments</h2></div>
+                            <button class="btn btn-primary" onclick="bookAppointmentForPatient()"><i class="fas fa-plus"></i> Book</button>
+                        </div>
+                        <div class="card">
+                            <div class="card-header"><h3>All Appointments (${appointments.length})</h3>
+                            <select id="appt-filter" onchange="filterAppointments()" style="padding:6px;">
+                                <option value="all">All</option>
+                                <option value="confirmed">Confirmed</option>
+                                <option value="cancelled">Cancelled</option>
+                            </select></div>
+                            <div id="appt-table">${renderAppointmentTable(appointments)}</div>
+                        </div>
+                    `;
+                }).catch(() => showToast('Failed to load appointments','error'));
             }
             function renderAppointmentTable(appts) {
-                if(appts.length===0) return '<div class="empty-state">No appointments found.</div>';
-                return `<table><thead><tr><th>ID</th><th>Patient</th><th>Doctor</th><th>Date</th><th>Time</th><th>Status</th><th>Actions</th></tr></thead>
+                if(!appts.length) return '<div class="empty-state">No appointments.</div>';
+                return `<table><thead><tr><th>ID</th><th>Patient</th><th>Doctor</th><th>Date</th><th>Time</th><th>Status</th><th>Action</th></tr></thead>
                 <tbody>${appts.map(a=>`
-                    <tr>
-                        <td>#${a.id}</td><td>${a.patientName}</td><td>${a.doctorName}</td>
-                        <td>${a.date}</td><td>${a.time}</td>
-                        <td><span class="status-badge status-${a.status}">${a.status}</span></td>
-                        <td>
-                            ${a.status==='confirmed' ? `<button class="btn btn-danger btn-xs" onclick="cancelAppointment(${a.id})"><i class="fas fa-times"></i> Cancel</button>` : ''}
-                        </td>
-                    </tr>`).join('')}</tbody></table>`;
+                    <tr><td>#${a.id}</td><td>${a.patientName||'Patient #'+a.patientId}</td>
+                    <td>${a.doctorName||'Doctor #'+a.doctorId}</td><td>${a.date}</td><td>${a.time}</td>
+                    <td><span class="status-badge status-${a.status}">${a.status}</span></td>
+                    <td>${a.status==='confirmed' ? `<button class="btn btn-danger btn-xs" onclick="cancelAppointment(${a.id})"><i class="fas fa-times"></i> Cancel</button>` : ''}</td></tr>`).join('')}</tbody></table>`;
             }
             window.filterAppointments = function() {
                 const filter = document.getElementById('appt-filter').value;
-                const db = getDB();
-                let filtered = db.appointments;
-                if(filter !== 'all') filtered = db.appointments.filter(a=>a.status===filter);
-                document.getElementById('appt-table-container').innerHTML = renderAppointmentTable(filtered);
-            };
-            window.showBookAppointmentModal = function() {
-                const db = getDB();
-                const patientOptions = db.patients.map(p=>`<option value="${p.id}">${p.name} (ID:${p.id})</option>`).join('');
-                const doctorOptions = db.doctors.map(d=>`<option value="${d.id}">${d.name} - ${d.specialization}</option>`).join('');
-                const body = `
-                    <div class="form-group"><label>Patient</label><select id="apt-patient">${patientOptions}</select></div>
-                    <div class="form-group"><label>Doctor</label><select id="apt-doctor" onchange="updateAvailableSlotsHint()">${doctorOptions}</select></div>
-                    <div class="form-row">
-                        <div class="form-group"><label>Date</label><input type="date" id="apt-date" required></div>
-                        <div class="form-group"><label>Time</label><input type="time" id="apt-time" required step="60">
-                        <small id="apt-slots-hint" style="color:#64748b;"></small></div>
-                    </div>
-                `;
-                openModal('Book Appointment', body, () => {
-                    const patientId = parseInt(document.getElementById('apt-patient').value);
-                    const doctorId = parseInt(document.getElementById('apt-doctor').value);
-                    const date = document.getElementById('apt-date').value;
-                    const timeRaw = document.getElementById('apt-time').value;
-                    const time = timeRaw.substring(0,5); // Normalize to HH:MM (remove seconds)
-                    if(!date || !time) { showToast('Date and time required','error'); return; }
-                    const patient = db.patients.find(p=>p.id===patientId);
-                    const doctor = db.doctors.find(d=>d.id===doctorId);
-                    if(!patient || !doctor) { showToast('Invalid selection','error'); return; }
-                    // Check availability
-                    const slots = doctor.availableSlots || [];
-                    if(!slots.includes(time)) {
-                        showToast(`Doctor not available at ${time}. Available slots: ${slots.join(', ')}`, 'error');
-                        return;
-                    }
-                    const newAppt = { id: generateId('appointments'), patientId, doctorId, patientName:patient.name, doctorName:doctor.name, date, time, status:'confirmed' };
-                    db.appointments.push(newAppt);
-                    saveDB(db);
-                    showToast('Appointment booked successfully','success');
-                    renderPage('appointments');
+                apiGet('/appointments').then(resp => {
+                    let appts = resp.data || [];
+                    if(filter !== 'all') appts = appts.filter(a => a.status === filter);
+                    document.getElementById('appt-table').innerHTML = renderAppointmentTable(appts);
                 });
-                // Helper to show available slots for selected doctor
-                window.updateAvailableSlotsHint = function() {
-                    const doctorId = parseInt(document.getElementById('apt-doctor').value);
-                    const doctor = db.doctors.find(d=>d.id===doctorId);
-                    const hint = document.getElementById('apt-slots-hint');
-                    if(doctor && doctor.availableSlots) {
-                        hint.textContent = 'Available slots: ' + doctor.availableSlots.join(', ');
-                    } else {
-                        hint.textContent = '';
-                    }
-                };
-                // Initial call
-                setTimeout(() => updateAvailableSlotsHint(), 50);
             };
             window.cancelAppointment = function(id) {
-                confirmDelete('Cancel this appointment?', ()=>{
-                    const db = getDB();
-                    const appt = db.appointments.find(a=>a.id===id);
-                    if(appt) { appt.status = 'cancelled'; saveDB(db); showToast('Appointment cancelled','info'); renderPage('appointments'); }
+                confirmDelete('Cancel this appointment?', async () => {
+                    try {
+                        await apiDelete(`/appointments/${id}`);
+                        showToast('Appointment cancelled','info');
+                        renderPage('appointments');
+                    } catch(e) { showToast(e.message,'error'); }
                 });
             };
 
             // ---------- EHR ----------
             function renderEHR(container) {
-                const db = getDB();
-                container.innerHTML = `
-                    <div class="page-header">
-                        <div><h2><i class="fas fa-notes-medical"></i> Electronic Health Records</h2></div>
-                        <button class="btn btn-primary" onclick="showEHRForm()"><i class="fas fa-plus"></i> Add EHR</button>
-                    </div>
-                    <div class="card">
-                        <div class="card-header"><h3>All EHR Records (${db.ehr.length})</h3>
-                        <select id="ehr-patient-filter" onchange="filterEHR()" style="padding:6px; border-radius:6px;">
-                            <option value="all">All Patients</option>
-                            ${db.patients.map(p=>`<option value="${p.id}">${p.name}</option>`).join('')}
+                showLoading(container);
+                apiGet('/ehr').then(resp => {
+                    const records = resp.data || [];
+                    container.innerHTML = `
+                        <div class="page-header">
+                            <div><h2>EHR Records</h2></div>
+                            <button class="btn btn-primary" onclick="showEHRForm()"><i class="fas fa-plus"></i> Add EHR</button>
+                        </div>
+                        <div class="card">
+                            <div class="card-header"><h3>All Records (${records.length})</h3></div>
+                            ${records.length===0?'<div class="empty-state">No records.</div>':`
+                            <table><thead><tr><th>ID</th><th>Patient</th><th>Diagnosis</th><th>Treatment</th><th>Visit Date</th><th>Actions</th></tr></thead>
+                            <tbody>${records.map(r=>`
+                                <tr><td>#${r.id}</td><td>${r.patientName||'Patient #'+r.patientId}</td>
+                                <td>${r.diagnosis}</td><td>${r.treatment}</td><td>${r.visitDate}</td>
+                                <td><button class="btn btn-outline btn-xs" onclick="editEHR(${r.id})"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-danger btn-xs" onclick="deleteEHR(${r.id})"><i class="fas fa-trash"></i></button></td></tr>`).join('')}</tbody></table>`}
+                        </div>
+                    `;
+                }).catch(() => showToast('Failed to load EHR','error'));
+            }
+            window.showEHRForm = function() {
+                apiGet('/patients').then(resp => {
+                    const patients = resp.data || [];
+                    const body = `
+                        <div class="form-group"><label>Patient</label><select id="ehr-patient">
+                            ${patients.map(p=>`<option value="${p.id}">${p.name}</option>`).join('')}
                         </select></div>
-                        <div id="ehr-table-container">${renderEHRTable(db.ehr)}</div>
-                    </div>
-                `;
-            }
-            function renderEHRTable(records) {
-                if(records.length===0) return '<div class="empty-state">No EHR records found.</div>';
-                return `<table><thead><tr><th>ID</th><th>Patient</th><th>Diagnosis</th><th>Treatment</th><th>Visit Date</th><th>Actions</th></tr></thead>
-                <tbody>${records.map(r=>`
-                    <tr>
-                        <td>#${r.id}</td><td>${r.patientName}</td><td>${r.diagnosis}</td><td>${r.treatment}</td><td>${r.visitDate}</td>
-                        <td>
-                            <button class="btn btn-outline btn-xs" onclick="showEHRForm(${r.id})"><i class="fas fa-edit"></i></button>
-                            <button class="btn btn-danger btn-xs" onclick="deleteEHR(${r.id})"><i class="fas fa-trash"></i></button>
-                        </td>
-                    </tr>`).join('')}</tbody></table>`;
-            }
-            window.filterEHR = function() {
-                const filterId = document.getElementById('ehr-patient-filter').value;
-                const db = getDB();
-                const filtered = filterId==='all' ? db.ehr : db.ehr.filter(e=>e.patientId===parseInt(filterId));
-                document.getElementById('ehr-table-container').innerHTML = renderEHRTable(filtered);
+                        <div class="form-group"><label>Diagnosis</label><input id="ehr-diag"></div>
+                        <div class="form-group"><label>Treatment</label><input id="ehr-treat"></div>
+                        <div class="form-group"><label>Visit Date</label><input type="date" id="ehr-date"></div>
+                    `;
+                    openModal('New EHR', body, async () => {
+                        const patientId = parseInt(document.getElementById('ehr-patient').value);
+                        const diagnosis = document.getElementById('ehr-diag').value.trim();
+                        const treatment = document.getElementById('ehr-treat').value.trim();
+                        const visitDate = document.getElementById('ehr-date').value;
+                        try {
+                            await apiPost('/ehr', { patientId, diagnosis, treatment, visitDate });
+                            showToast('EHR created','success');
+                            renderPage('ehr');
+                        } catch(e) { showToast(e.message,'error'); }
+                    });
+                });
             };
-            window.showEHRForm = function(editId=null) {
-                const db = getDB();
-                const record = editId ? db.ehr.find(e=>e.id===editId) : null;
-                const patientOptions = db.patients.map(p=>`<option value="${p.id}" ${record&&record.patientId===p.id?'selected':''}>${p.name}</option>`).join('');
-                const body = `
-                    <div class="form-group"><label>Patient</label><select id="ehr-patient">${patientOptions}</select></div>
-                    <div class="form-group"><label>Diagnosis</label><input id="ehr-diag" value="${record?record.diagnosis:''}"></div>
-                    <div class="form-group"><label>Treatment</label><input id="ehr-treat" value="${record?record.treatment:''}"></div>
-                    <div class="form-group"><label>Visit Date</label><input type="date" id="ehr-date" value="${record?record.visitDate:''}"></div>
-                `;
-                openModal(editId?'Edit EHR':'New EHR', body, () => {
-                    const patientId = parseInt(document.getElementById('ehr-patient').value);
-                    const diagnosis = document.getElementById('ehr-diag').value.trim();
-                    const treatment = document.getElementById('ehr-treat').value.trim();
-                    const visitDate = document.getElementById('ehr-date').value;
-                    const patient = db.patients.find(p=>p.id===patientId);
-                    if(!patient) { showToast('Patient required','error'); return; }
-                    const db2 = getDB();
-                    if(editId) {
-                        const idx = db2.ehr.findIndex(e=>e.id===editId);
-                        if(idx>-1) { db2.ehr[idx] = {...db2.ehr[idx], patientId, patientName:patient.name, diagnosis, treatment, visitDate}; saveDB(db2); showToast('EHR updated','success'); }
-                    } else {
-                        const newEHR = { id: generateId('ehr'), patientId, patientName:patient.name, diagnosis, treatment, visitDate };
-                        db2.ehr.push(newEHR); saveDB(db2); showToast('EHR created','success');
-                    }
-                    renderPage('ehr');
+            window.editEHR = function(id) {
+                apiGet(`/ehr/${id}`).then(resp => {
+                    const r = resp.data;
+                    const body = `
+                        <div class="form-group"><label>Patient ID</label><input id="ehr-patient" value="${r.patientId}" readonly></div>
+                        <div class="form-group"><label>Diagnosis</label><input id="ehr-diag" value="${r.diagnosis||''}"></div>
+                        <div class="form-group"><label>Treatment</label><input id="ehr-treat" value="${r.treatment||''}"></div>
+                        <div class="form-group"><label>Visit Date</label><input type="date" id="ehr-date" value="${r.visitDate||''}"></div>
+                    `;
+                    openModal('Edit EHR', body, async () => {
+                        try {
+                            await apiPut(`/ehr/${id}`, {
+                                patientId: r.patientId,
+                                diagnosis: document.getElementById('ehr-diag').value.trim(),
+                                treatment: document.getElementById('ehr-treat').value.trim(),
+                                visitDate: document.getElementById('ehr-date').value
+                            });
+                            showToast('EHR updated','success');
+                            renderPage('ehr');
+                        } catch(e) { showToast(e.message,'error'); }
+                    });
                 });
             };
             window.deleteEHR = function(id) {
-                confirmDelete('Delete this EHR record?', ()=>{
-                    const db = getDB();
-                    db.ehr = db.ehr.filter(e=>e.id!==id);
-                    saveDB(db); showToast('EHR deleted','info'); renderPage('ehr');
+                confirmDelete('Delete this EHR?', async () => {
+                    try { await apiDelete(`/ehr/${id}`); showToast('EHR deleted','info'); renderPage('ehr'); }
+                    catch(e) { showToast(e.message,'error'); }
                 });
             };
 
             // ---------- PRESCRIPTIONS ----------
             function renderPrescriptions(container) {
-                const db = getDB();
-                container.innerHTML = `
-                    <div class="page-header">
-                        <div><h2><i class="fas fa-prescription"></i> Prescriptions</h2></div>
-                        <button class="btn btn-primary" onclick="showPrescriptionForm()"><i class="fas fa-plus"></i> Add Prescription</button>
-                    </div>
-                    <div class="card">
-                        <div class="card-header"><h3>All Prescriptions (${db.prescriptions.length})</h3>
-                        <select id="presc-patient-filter" onchange="filterPrescriptions()" style="padding:6px; border-radius:6px;">
-                            <option value="all">All Patients</option>
-                            ${db.patients.map(p=>`<option value="${p.id}">${p.name}</option>`).join('')}
+                showLoading(container);
+                apiGet('/prescriptions').then(resp => {
+                    const presc = resp.data || [];
+                    container.innerHTML = `
+                        <div class="page-header">
+                            <div><h2>Prescriptions</h2></div>
+                            <button class="btn btn-primary" onclick="showPrescriptionForm()"><i class="fas fa-plus"></i> Add</button>
+                        </div>
+                        <div class="card">
+                            <div class="card-header"><h3>All Prescriptions (${presc.length})</h3></div>
+                            ${presc.length===0?'<div class="empty-state">None.</div>':`
+                            <table><thead><tr><th>ID</th><th>Patient</th><th>Medicines</th><th>Dosage</th><th>Notes</th><th>Date</th><th>Actions</th></tr></thead>
+                            <tbody>${presc.map(p=>`
+                                <tr><td>#${p.id}</td><td>${p.patientName||'Patient #'+p.patientId}</td>
+                                <td>${p.medicines}</td><td>${p.dosage}</td><td>${p.doctorNotes||''}</td><td>${p.date}</td>
+                                <td><button class="btn btn-outline btn-xs" onclick="editPrescription(${p.id})"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-danger btn-xs" onclick="deletePrescription(${p.id})"><i class="fas fa-trash"></i></button></td></tr>`).join('')}</tbody></table>`}
+                        </div>
+                    `;
+                }).catch(() => showToast('Failed to load prescriptions','error'));
+            }
+            window.showPrescriptionForm = function() {
+                apiGet('/patients').then(resp => {
+                    const patients = resp.data || [];
+                    const body = `
+                        <div class="form-group"><label>Patient</label><select id="presc-patient">
+                            ${patients.map(p=>`<option value="${p.id}">${p.name}</option>`).join('')}
                         </select></div>
-                        <div id="presc-table-container">${renderPrescriptionTable(db.prescriptions)}</div>
-                    </div>
-                `;
-            }
-            function renderPrescriptionTable(prescriptions) {
-                if(prescriptions.length===0) return '<div class="empty-state">No prescriptions found.</div>';
-                return `<table><thead><tr><th>ID</th><th>Patient</th><th>Medicines</th><th>Dosage</th><th>Notes</th><th>Date</th><th>Actions</th></tr></thead>
-                <tbody>${prescriptions.map(p=>`
-                    <tr>
-                        <td>#${p.id}</td><td>${p.patientName}</td><td>${p.medicines}</td><td>${p.dosage}</td><td>${p.doctorNotes||''}</td><td>${p.date}</td>
-                        <td>
-                            <button class="btn btn-outline btn-xs" onclick="showPrescriptionForm(${p.id})"><i class="fas fa-edit"></i></button>
-                            <button class="btn btn-danger btn-xs" onclick="deletePrescription(${p.id})"><i class="fas fa-trash"></i></button>
-                        </td>
-                    </tr>`).join('')}</tbody></table>`;
-            }
-            window.filterPrescriptions = function() {
-                const filterId = document.getElementById('presc-patient-filter').value;
-                const db = getDB();
-                const filtered = filterId==='all' ? db.prescriptions : db.prescriptions.filter(p=>p.patientId===parseInt(filterId));
-                document.getElementById('presc-table-container').innerHTML = renderPrescriptionTable(filtered);
+                        <div class="form-group"><label>Medicines</label><input id="presc-med"></div>
+                        <div class="form-group"><label>Dosage</label><input id="presc-dosage"></div>
+                        <div class="form-group"><label>Notes</label><textarea id="presc-notes" rows="2"></textarea></div>
+                        <div class="form-group"><label>Date</label><input type="date" id="presc-date"></div>
+                    `;
+                    openModal('New Prescription', body, async () => {
+                        const patientId = parseInt(document.getElementById('presc-patient').value);
+                        const medicines = document.getElementById('presc-med').value.trim();
+                        const dosage = document.getElementById('presc-dosage').value.trim();
+                        const doctorNotes = document.getElementById('presc-notes').value.trim();
+                        const date = document.getElementById('presc-date').value;
+                        try {
+                            await apiPost('/prescriptions', { patientId, medicines, dosage, doctorNotes, date });
+                            showToast('Prescription created','success');
+                            renderPage('prescriptions');
+                        } catch(e) { showToast(e.message,'error'); }
+                    });
+                });
             };
-            window.showPrescriptionForm = function(editId=null) {
-                const db = getDB();
-                const presc = editId ? db.prescriptions.find(p=>p.id===editId) : null;
-                const patientOptions = db.patients.map(p=>`<option value="${p.id}" ${presc&&presc.patientId===p.id?'selected':''}>${p.name}</option>`).join('');
-                const body = `
-                    <div class="form-group"><label>Patient</label><select id="presc-patient">${patientOptions}</select></div>
-                    <div class="form-group"><label>Medicines</label><input id="presc-med" value="${presc?presc.medicines:''}"></div>
-                    <div class="form-group"><label>Dosage</label><input id="presc-dosage" value="${presc?presc.dosage:''}"></div>
-                    <div class="form-group"><label>Doctor Notes</label><textarea id="presc-notes" rows="2">${presc?presc.doctorNotes||'':''}</textarea></div>
-                    <div class="form-group"><label>Date</label><input type="date" id="presc-date" value="${presc?presc.date:''}"></div>
-                `;
-                openModal(editId?'Edit Prescription':'New Prescription', body, () => {
-                    const patientId = parseInt(document.getElementById('presc-patient').value);
-                    const medicines = document.getElementById('presc-med').value.trim();
-                    const dosage = document.getElementById('presc-dosage').value.trim();
-                    const doctorNotes = document.getElementById('presc-notes').value.trim();
-                    const date = document.getElementById('presc-date').value;
-                    const patient = db.patients.find(p=>p.id===patientId);
-                    if(!patient) { showToast('Patient required','error'); return; }
-                    const db2 = getDB();
-                    if(editId) {
-                        const idx = db2.prescriptions.findIndex(p=>p.id===editId);
-                        if(idx>-1) { db2.prescriptions[idx] = {...db2.prescriptions[idx], patientId, patientName:patient.name, medicines, dosage, doctorNotes, date}; saveDB(db2); showToast('Prescription updated','success'); }
-                    } else {
-                        const newPresc = { id: generateId('prescriptions'), patientId, patientName:patient.name, medicines, dosage, doctorNotes, date };
-                        db2.prescriptions.push(newPresc); saveDB(db2); showToast('Prescription created','success');
-                    }
-                    renderPage('prescriptions');
+            window.editPrescription = function(id) {
+                apiGet(`/prescriptions/${id}`).then(resp => {
+                    const p = resp.data;
+                    const body = `
+                        <div class="form-group"><label>Patient ID</label><input value="${p.patientId}" readonly></div>
+                        <div class="form-group"><label>Medicines</label><input id="presc-med" value="${p.medicines||''}"></div>
+                        <div class="form-group"><label>Dosage</label><input id="presc-dosage" value="${p.dosage||''}"></div>
+                        <div class="form-group"><label>Notes</label><textarea id="presc-notes">${p.doctorNotes||''}</textarea></div>
+                        <div class="form-group"><label>Date</label><input type="date" id="presc-date" value="${p.date||''}"></div>
+                    `;
+                    openModal('Edit Prescription', body, async () => {
+                        try {
+                            await apiPut(`/prescriptions/${id}`, {
+                                patientId: p.patientId,
+                                medicines: document.getElementById('presc-med').value.trim(),
+                                dosage: document.getElementById('presc-dosage').value.trim(),
+                                doctorNotes: document.getElementById('presc-notes').value.trim(),
+                                date: document.getElementById('presc-date').value
+                            });
+                            showToast('Prescription updated','success');
+                            renderPage('prescriptions');
+                        } catch(e) { showToast(e.message,'error'); }
+                    });
                 });
             };
             window.deletePrescription = function(id) {
-                confirmDelete('Delete this prescription?', ()=>{
-                    const db = getDB();
-                    db.prescriptions = db.prescriptions.filter(p=>p.id!==id);
-                    saveDB(db); showToast('Prescription deleted','info'); renderPage('prescriptions');
+                confirmDelete('Delete this prescription?', async () => {
+                    try { await apiDelete(`/prescriptions/${id}`); showToast('Deleted','info'); renderPage('prescriptions'); }
+                    catch(e) { showToast(e.message,'error'); }
                 });
             };
 
             // ---------- BILLING ----------
             function renderBilling(container) {
-                const db = getDB();
-                container.innerHTML = `
-                    <div class="page-header">
-                        <div><h2><i class="fas fa-file-invoice-dollar"></i> Billing</h2></div>
-                        <button class="btn btn-primary" onclick="showCreateBillModal()"><i class="fas fa-plus"></i> Generate Bill</button>
-                    </div>
-                    <div class="card">
-                        <div class="card-header"><h3>All Bills (${db.bills.length})</h3></div>
-                        ${db.bills.length===0 ? '<div class="empty-state">No bills.</div>' : `
-                        <table><thead><tr><th>ID</th><th>Patient</th><th>Amount</th><th>Discounted</th><th>Policy</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead>
-                        <tbody>${db.bills.map(b=>`
-                            <tr>
-                                <td>#${b.id}</td><td>${b.patientName}</td><td>₹${b.amount}</td><td>₹${b.discountedAmount}</td>
+                showLoading(container);
+                apiGet('/billing').then(resp => {
+                    const bills = resp.data || [];
+                    container.innerHTML = `
+                        <div class="page-header">
+                            <div><h2>Billing</h2></div>
+                            <button class="btn btn-primary" onclick="showCreateBillModal()"><i class="fas fa-plus"></i> Generate Bill</button>
+                        </div>
+                        <div class="card">
+                            <div class="card-header"><h3>All Bills (${bills.length})</h3></div>
+                            ${bills.length===0?'<div class="empty-state">No bills.</div>':`
+                            <table><thead><tr><th>ID</th><th>Patient</th><th>Amount</th><th>Discounted</th><th>Policy</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead>
+                            <tbody>${bills.map(b=>`
+                                <tr><td>#${b.id}</td><td>${b.patientName||'Patient #'+b.patientId}</td>
+                                <td>₹${b.amount}</td><td>₹${b.discountedAmount||b.amount}</td>
                                 <td>${b.policyNumber||'N/A'}</td>
                                 <td><span class="status-badge status-${b.status==='PAID'?'paid':'unpaid'}">${b.status}</span></td>
                                 <td>${b.date}</td>
-                                <td>
-                                    ${b.status==='UNPAID' ? `<button class="btn btn-success btn-xs" onclick="payBill(${b.id})"><i class="fas fa-check"></i> Pay</button>` : ''}
+                                <td>${b.status==='UNPAID' ? `<button class="btn btn-success btn-xs" onclick="payBill(${b.id})"><i class="fas fa-check"></i> Pay</button>` : ''}
                                     <button class="btn btn-danger btn-xs" onclick="deleteBill(${b.id})"><i class="fas fa-trash"></i></button>
-                                </td>
-                            </tr>`).join('')}</tbody></table>`}
-                    </div>
-                `;
+                                </td></tr>`).join('')}</tbody></table>`}
+                        </div>
+                    `;
+                }).catch(() => showToast('Failed to load bills','error'));
             }
             window.showCreateBillModal = function() {
-                const db = getDB();
-                const patientOptions = db.patients.map(p=>`<option value="${p.id}">${p.name}</option>`).join('');
-                const body = `
-                    <div class="form-group"><label>Patient</label><select id="bill-patient">${patientOptions}</select></div>
-                    <div class="form-group"><label>Amount (₹)</label><input type="number" id="bill-amount" min="0" step="0.01"></div>
-                `;
-                openModal('Generate Bill', body, () => {
-                    const patientId = parseInt(document.getElementById('bill-patient').value);
-                    const amount = parseFloat(document.getElementById('bill-amount').value);
-                    if(!amount || amount<=0) { showToast('Valid amount required','error'); return; }
-                    const patient = db.patients.find(p=>p.id===patientId);
-                    if(!patient) { showToast('Patient required','error'); return; }
-                    // Insurance validation
-                    let discounted = amount;
-                    if(patient.policyNumber && validateInsurancePolicy(patient.policyNumber)) {
-                        discounted = amount * 0.5; // 50% coverage
-                    }
-                    const newBill = {
-                        id: generateId('bills'),
-                        patientId: patient.id,
-                        patientName: patient.name,
-                        amount,
-                        policyNumber: patient.policyNumber,
-                        discountedAmount: discounted,
-                        status: 'UNPAID',
-                        date: new Date().toISOString().split('T')[0]
-                    };
-                    db.bills.push(newBill);
-                    saveDB(db);
-                    showToast(`Bill generated. Amount after insurance: ₹${discounted}`, 'success');
-                    renderPage('billing');
+                apiGet('/patients').then(resp => {
+                    const patients = resp.data || [];
+                    const body = `
+                        <div class="form-group"><label>Patient</label><select id="bill-patient">
+                            ${patients.map(p=>`<option value="${p.id}">${p.name}</option>`).join('')}
+                        </select></div>
+                        <div class="form-group"><label>Amount (₹)</label><input type="number" id="bill-amount" min="0" step="0.01"></div>
+                    `;
+                    openModal('Generate Bill', body, async () => {
+                        const patientId = parseInt(document.getElementById('bill-patient').value);
+                        const amount = parseFloat(document.getElementById('bill-amount').value);
+                        if(!amount || amount<=0) { showToast('Valid amount required','error'); return; }
+                        try {
+                            await apiPost('/billing/create', { patientId, amount, policyNumber: '' });
+                            showToast('Bill generated','success');
+                            renderPage('billing');
+                        } catch(e) { showToast(e.message,'error'); }
+                    });
                 });
             };
             window.payBill = function(id) {
-                const db = getDB();
-                const bill = db.bills.find(b=>b.id===id);
-                if(bill) { bill.status = 'PAID'; saveDB(db); showToast('Bill paid successfully','success'); renderPage('billing'); }
+                apiPut(`/billing/pay/${id}`, {}).then(() => {
+                    showToast('Bill paid','success');
+                    renderPage('billing');
+                }).catch(e => showToast(e.message,'error'));
             };
             window.deleteBill = function(id) {
-                confirmDelete('Delete this bill?', ()=>{
-                    const db = getDB();
-                    db.bills = db.bills.filter(b=>b.id!==id);
-                    saveDB(db); showToast('Bill deleted','info'); renderPage('billing');
+                confirmDelete('Delete this bill?', async () => {
+                    try { await apiDelete(`/billing/${id}`); showToast('Deleted','info'); renderPage('billing'); }
+                    catch(e) { showToast(e.message,'error'); }
                 });
             };
 
@@ -1092,12 +1212,12 @@
             function renderInsurance(container) {
                 container.innerHTML = `
                     <div class="page-header">
-                        <div><h2><i class="fas fa-shield-alt"></i> Insurance Validation</h2></div>
+                        <div><h2>Insurance Validation</h2></div>
                     </div>
                     <div class="card">
                         <div class="card-header"><h3>Validate Policy</h3></div>
-                        <div style="display:flex; gap:10px; align-items:center;">
-                            <input type="text" id="policy-input" placeholder="Enter policy number (e.g. HDFC123)" style="padding:10px; border:2px solid #ccc; border-radius:8px; flex:1;">
+                        <div style="display:flex; gap:10px;">
+                            <input type="text" id="policy-input" placeholder="Enter policy number" style="padding:10px; border:2px solid #ccc; border-radius:8px; flex:1;">
                             <button class="btn btn-primary" onclick="validatePolicyUI()"><i class="fas fa-search"></i> Validate</button>
                         </div>
                         <div id="validation-result" style="margin-top:16px;"></div>
@@ -1107,21 +1227,37 @@
             window.validatePolicyUI = function() {
                 const policy = document.getElementById('policy-input').value.trim();
                 const resultDiv = document.getElementById('validation-result');
-                if(!policy) { resultDiv.innerHTML = '<p style="color:#c62828;">Please enter a policy number.</p>'; return; }
-                const isValid = validateInsurancePolicy(policy);
-                if(isValid) {
-                    resultDiv.innerHTML = `<div style="background:#e8f5e9; padding:16px; border-radius:8px;"><i class="fas fa-check-circle" style="color:#2e7d32;"></i> <strong>Valid Policy</strong><br>Policy Number: ${policy}<br>Coverage: ₹50,000 (50% discount applicable)</div>`;
-                } else {
-                    resultDiv.innerHTML = `<div style="background:#ffebee; padding:16px; border-radius:8px;"><i class="fas fa-times-circle" style="color:#c62828;"></i> <strong>Invalid Policy</strong><br>No coverage found for ${policy}.</div>`;
-                }
+                if(!policy) { resultDiv.innerHTML = '<p style="color:#c62828;">Enter a policy number.</p>'; return; }
+                apiGet(`/insurance/validate/${policy}`).then(resp => {
+                    const data = resp.data || resp;
+                    if(data.valid) {
+                        resultDiv.innerHTML = `<div style="background:#e8f5e9; padding:16px; border-radius:8px;"><i class="fas fa-check-circle" style="color:#2e7d32;"></i> <strong>Valid Policy</strong><br>Coverage: ₹${data.coverage||50000}</div>`;
+                    } else {
+                        resultDiv.innerHTML = `<div style="background:#ffebee; padding:16px; border-radius:8px;"><i class="fas fa-times-circle" style="color:#c62828;"></i> Invalid policy number.</div>`;
+                    }
+                }).catch(() => showToast('Validation failed','error'));
             };
-            function validateInsurancePolicy(policyNumber) {
-                const validPrefixes = ['HDFC', 'ICICI', 'STAR'];
-                return validPrefixes.some(prefix => policyNumber.startsWith(prefix));
-            }
 
-            // ---------- INITIAL RENDER ----------
-            renderPage('dashboard');
+            // ---------- LOGIN / LOGOUT ----------
+            document.getElementById('login-btn').addEventListener('click', () => {
+                const email = document.getElementById('login-email').value.trim();
+                const password = document.getElementById('login-password').value.trim();
+                if (email === VALID_EMAIL && password === VALID_PASSWORD) {
+                    isAuthenticated = true;
+                    document.getElementById('login-screen').classList.add('hidden');
+                    document.getElementById('app-container').classList.remove('hidden');
+                    renderPage('dashboard');
+                } else {
+                    document.getElementById('login-error').style.display = 'block';
+                }
+            });
+
+            window.logout = function() {
+                isAuthenticated = false;
+                document.getElementById('app-container').classList.add('hidden');
+                document.getElementById('login-screen').classList.remove('hidden');
+            };
+
         })();
     </script>
 </body>

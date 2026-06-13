@@ -454,7 +454,7 @@
     <script>
         (function() {
             // ---------- DATABASE ----------
-            const DB_KEY = 'medicare_db_full';
+            const DB_KEY = 'medicare_db_full_v2';
             function getDB() {
                 const raw = localStorage.getItem(DB_KEY);
                 if (raw) return JSON.parse(raw);
@@ -710,12 +710,11 @@
                     </div>
                     <div class="card">
                         <div class="card-header"><h3>All Doctors (${db.doctors.length})</h3>
-                        <div><input type="text" id="slot-filter" placeholder="Filter by available slot e.g. 10:00" style="padding:6px 10px; border:1px solid #ccc; border-radius:6px; width:200px;">
-                        <button class="btn btn-sm btn-outline" onclick="filterDoctorsBySlot()">Check Availability</button></div>
-                        </div>
-                        <div id="doctor-table-container">
-                        ${renderDoctorTable(db.doctors)}
-                        </div>
+                        <div style="display:flex; gap:8px;">
+                            <input type="text" id="slot-filter" placeholder="Filter by slot (e.g. 10:00)" style="padding:6px 10px; border:2px solid #ccc; border-radius:6px; width:180px;">
+                            <button class="btn btn-sm btn-outline" onclick="filterDoctorsBySlot()">Check Availability</button>
+                        </div></div>
+                        <div id="doctor-table-container">${renderDoctorTable(db.doctors)}</div>
                     </div>
                 `;
             }
@@ -788,8 +787,7 @@
                             <option value="all">All</option>
                             <option value="confirmed">Confirmed</option>
                             <option value="cancelled">Cancelled</option>
-                        </select>
-                        </div>
+                        </select></div>
                         <div id="appt-table-container">${renderAppointmentTable(db.appointments)}</div>
                     </div>
                 `;
@@ -820,32 +818,48 @@
                 const doctorOptions = db.doctors.map(d=>`<option value="${d.id}">${d.name} - ${d.specialization}</option>`).join('');
                 const body = `
                     <div class="form-group"><label>Patient</label><select id="apt-patient">${patientOptions}</select></div>
-                    <div class="form-group"><label>Doctor</label><select id="apt-doctor">${doctorOptions}</select></div>
+                    <div class="form-group"><label>Doctor</label><select id="apt-doctor" onchange="updateAvailableSlotsHint()">${doctorOptions}</select></div>
                     <div class="form-row">
                         <div class="form-group"><label>Date</label><input type="date" id="apt-date" required></div>
-                        <div class="form-group"><label>Time</label><input type="time" id="apt-time" required></div>
+                        <div class="form-group"><label>Time</label><input type="time" id="apt-time" required step="60">
+                        <small id="apt-slots-hint" style="color:#64748b;"></small></div>
                     </div>
                 `;
                 openModal('Book Appointment', body, () => {
                     const patientId = parseInt(document.getElementById('apt-patient').value);
                     const doctorId = parseInt(document.getElementById('apt-doctor').value);
                     const date = document.getElementById('apt-date').value;
-                    const time = document.getElementById('apt-time').value;
+                    const timeRaw = document.getElementById('apt-time').value;
+                    const time = timeRaw.substring(0,5); // Normalize to HH:MM (remove seconds)
                     if(!date || !time) { showToast('Date and time required','error'); return; }
                     const patient = db.patients.find(p=>p.id===patientId);
                     const doctor = db.doctors.find(d=>d.id===doctorId);
                     if(!patient || !doctor) { showToast('Invalid selection','error'); return; }
                     // Check availability
-                    if(!(doctor.availableSlots||[]).includes(time)) {
-                        showToast('Doctor not available at this time slot','error');
+                    const slots = doctor.availableSlots || [];
+                    if(!slots.includes(time)) {
+                        showToast(`Doctor not available at ${time}. Available slots: ${slots.join(', ')}`, 'error');
                         return;
                     }
                     const newAppt = { id: generateId('appointments'), patientId, doctorId, patientName:patient.name, doctorName:doctor.name, date, time, status:'confirmed' };
                     db.appointments.push(newAppt);
                     saveDB(db);
-                    showToast('Appointment booked','success');
+                    showToast('Appointment booked successfully','success');
                     renderPage('appointments');
                 });
+                // Helper to show available slots for selected doctor
+                window.updateAvailableSlotsHint = function() {
+                    const doctorId = parseInt(document.getElementById('apt-doctor').value);
+                    const doctor = db.doctors.find(d=>d.id===doctorId);
+                    const hint = document.getElementById('apt-slots-hint');
+                    if(doctor && doctor.availableSlots) {
+                        hint.textContent = 'Available slots: ' + doctor.availableSlots.join(', ');
+                    } else {
+                        hint.textContent = '';
+                    }
+                };
+                // Initial call
+                setTimeout(() => updateAvailableSlotsHint(), 50);
             };
             window.cancelAppointment = function(id) {
                 confirmDelete('Cancel this appointment?', ()=>{
@@ -1032,7 +1046,7 @@
                 const patientOptions = db.patients.map(p=>`<option value="${p.id}">${p.name}</option>`).join('');
                 const body = `
                     <div class="form-group"><label>Patient</label><select id="bill-patient">${patientOptions}</select></div>
-                    <div class="form-group"><label>Amount (₹)</label><input type="number" id="bill-amount" min="0"></div>
+                    <div class="form-group"><label>Amount (₹)</label><input type="number" id="bill-amount" min="0" step="0.01"></div>
                 `;
                 openModal('Generate Bill', body, () => {
                     const patientId = parseInt(document.getElementById('bill-patient').value);
@@ -1042,9 +1056,8 @@
                     if(!patient) { showToast('Patient required','error'); return; }
                     // Insurance validation
                     let discounted = amount;
-                    if(patient.policyNumber) {
-                        const valid = validateInsurancePolicy(patient.policyNumber);
-                        if(valid) discounted = amount * 0.5; // 50% coverage
+                    if(patient.policyNumber && validateInsurancePolicy(patient.policyNumber)) {
+                        discounted = amount * 0.5; // 50% coverage
                     }
                     const newBill = {
                         id: generateId('bills'),
@@ -1058,7 +1071,7 @@
                     };
                     db.bills.push(newBill);
                     saveDB(db);
-                    showToast(`Bill generated. Amount: ₹${discounted}`, 'success');
+                    showToast(`Bill generated. Amount after insurance: ₹${discounted}`, 'success');
                     renderPage('billing');
                 });
             };
@@ -1084,7 +1097,7 @@
                     <div class="card">
                         <div class="card-header"><h3>Validate Policy</h3></div>
                         <div style="display:flex; gap:10px; align-items:center;">
-                            <input type="text" id="policy-input" placeholder="Enter policy number e.g. HDFC123" style="padding:10px; border:2px solid #ccc; border-radius:8px; flex:1;">
+                            <input type="text" id="policy-input" placeholder="Enter policy number (e.g. HDFC123)" style="padding:10px; border:2px solid #ccc; border-radius:8px; flex:1;">
                             <button class="btn btn-primary" onclick="validatePolicyUI()"><i class="fas fa-search"></i> Validate</button>
                         </div>
                         <div id="validation-result" style="margin-top:16px;"></div>
@@ -1103,7 +1116,6 @@
                 }
             };
             function validateInsurancePolicy(policyNumber) {
-                // Simulated: All policy numbers starting with HDFC, ICICI, STAR are valid
                 const validPrefixes = ['HDFC', 'ICICI', 'STAR'];
                 return validPrefixes.some(prefix => policyNumber.startsWith(prefix));
             }

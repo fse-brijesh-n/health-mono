@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediCare | Hospital Management Portal</title>
+    <!-- Font Awesome 6 for professional icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1565c0;
+            --primary-dark: #0d47a1;
+            --primary-light: #e3f2fd;
+            --secondary: #00897b;
+            --accent: #f9a825;
+            --danger: #c62828;
+            --success: #2e7d32;
+            --warning: #f57f17;
+            --purple: #6a1b9a;
+            --bg: #f5f7fa;
+            --sidebar-bg: #102a43;
+            --sidebar-hover: #1a3650;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --text-secondary: #64748b;
+            --border: #e2e8f0;
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+            --shadow: 0 4px 6px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.03);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.08), 0 4px 10px rgba(0,0,0,0.05);
+            --radius: 12px;
+            --radius-sm: 8px;
+            --transition: 0.2s ease;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ---------- SIDEBAR ---------- */
+        .sidebar {
+            width: 260px;
+            background: var(--sidebar-bg);
+            color: #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0; left: 0; bottom: 0;
+            z-index: 100;
+            box-shadow: 2px 0 16px rgba(0,0,0,0.08);
+            transition: var(--transition);
+        }
+        .sidebar-logo {
+            padding: 22px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            cursor: pointer;
+        }
+        .logo-icon {
+            width: 38px; height: 38px;
+            background: var(--primary);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: #fff;
+        }
+        .sidebar-logo h1 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            color: #fff;
+        }
+        .sidebar-logo h1 span { color: #90caf9; font-weight: 400; }
+
+        .sidebar-nav {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px 12px;
+        }
+        .nav-section { margin-bottom: 8px; }
+        .nav-section-title {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #64748b;
+            padding: 12px 12px 4px;
+            font-weight: 600;
+        }
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 11px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #cbd5e1;
+            margin-bottom: 2px;
+            text-decoration: none;
+        }
+        .nav-item i { width: 20px; font-size: 1.1rem; text-align: center; color: inherit; }
+        .nav-item:hover { background: var(--sidebar-hover); color: #fff; }
+        .nav-item.active {
+            background: var(--primary);
+            color: #fff;
+            box-shadow: 0 4px 10px rgba(21,101,192,0.3);
+        }
+        .badge {
+            margin-left: auto;
+            background: #ef4444;
+            color: #fff;
+            font-size: 0.7rem;
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        /* ---------- MAIN CONTENT ---------- */
+        .main-content {
+            margin-left: 260px;
+            flex: 1;
+            padding: 28px 32px;
+            transition: var(--transition);
+            min-width: 0;
+        }
+        .page-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .page-header h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text);
+            letter-spacing: -0.3px;
+        }
+        .page-header .breadcrumb {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* ---------- STAT CARDS ---------- */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 18px;
+            margin-bottom: 28px;
+        }
+        .stat-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 18px 20px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: var(--transition);
+            border: 1px solid transparent;
+            cursor: pointer;
+        }
+        .stat-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+            border-color: #e2e8f0;
+        }
+        .stat-icon {
+            width: 48px; height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            flex-shrink: 0;
+        }
+        .stat-icon i { color: #fff; }
+        .stat-card .stat-info h3 {
+            font-size: 1.7rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        .stat-card .stat-info p {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* ---------- CARDS & TABLES ---------- */
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 24px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border);
+        }
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .card-header h3 { font-size: 1rem; font-weight: 600; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.88rem;
+        }
+        thead th {
+            background: #f8fafc;
+            padding: 11px 14px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-secondary);
+            border-bottom: 2px solid #e2e8f0;
+            white-space: nowrap;
+        }
+        tbody td {
+            padding: 11px 14px;
+            border-bottom: 1px solid #f1f5f9;
+            vertical-align: middle;
+        }
+        tbody tr:hover { background: #f8fafc; }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            display: inline-block;
+        }
+        .status-paid { background: #d1fae5; color: #065f46; }
+        .status-unpaid { background: #fee2e2; color: #991b1b; }
+        .status-confirmed { background: #dbeafe; color: #1e40af; }
+        .status-cancelled { background: #fef3c7; color: #92400e; }
+
+        /* ---------- BUTTONS ---------- */
+        .btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.82rem;
+            letter-spacing: 0.2px;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+        .btn-primary { background: var(--primary); color: #fff; }
+        .btn-primary:hover { background: var(--primary-dark); box-shadow: 0 4px 12px rgba(21,101,192,0.25); }
+        .btn-success { background: var(--success); color: #fff; }
+        .btn-success:hover { background: #1b5e20; }
+        .btn-danger { background: var(--danger); color: #fff; }
+        .btn-danger:hover { background: #b71c1c; }
+        .btn-outline {
+            background: #fff;
+            border: 2px solid var(--border);
+            color: var(--text);
+        }
+        .btn-outline:hover { border-color: var(--primary); color: var(--primary); background: #f8fafc; }
+        .btn-xs { padding: 4px 10px; font-size: 0.7rem; border-radius: 5px; }
+        .btn-sm { padding: 6px 12px; font-size: 0.78rem; }
+
+        /* ---------- FORMS ---------- */
+        .form-group { margin-bottom: 16px; }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.8rem;
+            margin-bottom: 5px;
+            color: var(--text);
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            background: #fafbfc;
+            font-family: inherit;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(21,101,192,0.08);
+            background: #fff;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
+
+        /* ---------- MODAL ---------- */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15,23,42,0.6);
+            backdrop-filter: blur(3px);
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.2s ease;
+        }
+        @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+        .modal {
+            background: #fff;
+            border-radius: var(--radius);
+            padding: 28px 30px;
+            width: 90%;
+            max-width: 550px;
+            box-shadow: var(--shadow-lg);
+            animation: slideUp 0.25s ease;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+        @keyframes slideUp { from { transform:translateY(30px); opacity:0; } to { transform:translateY(0); opacity:1; } }
+        .modal h3 { font-size: 1.2rem; margin-bottom: 18px; font-weight: 700; }
+        .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
+
+        /* ---------- TOAST ---------- */
+        .toast-container {
+            position: fixed;
+            top: 20px; right: 20px;
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .toast {
+            padding: 14px 20px;
+            border-radius: 10px;
+            color: #fff;
+            font-weight: 600;
+            font-size: 0.82rem;
+            box-shadow: var(--shadow-lg);
+            animation: slideInRight 0.3s ease, fadeOutRight 0.3s ease 2.7s forwards;
+            max-width: 400px;
+        }
+        .toast-success { background: #2e7d32; }
+        .toast-error { background: #c62828; }
+        .toast-info { background: #1565c0; }
+        @keyframes slideInRight { from { transform:translateX(120%); opacity:0; } to { transform:translateX(0); opacity:1; } }
+        @keyframes fadeOutRight { from { transform:translateX(0); opacity:1; } to { transform:translateX(120%); opacity:0; } }
+
+        .empty-state { text-align: center; padding: 40px; color: var(--text-secondary); }
+        .tag {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            background: #e2e8f0;
+            margin: 2px;
+        }
+        @media (max-width: 900px) {
+            .sidebar { width: 70px; }
+            .sidebar-logo h1, .nav-section-title, .nav-item span:not(.fa, .fas, .far), .badge { display: none; }
+            .sidebar-logo { justify-content: center; padding: 16px 8px; }
+            .nav-item { justify-content: center; padding: 12px; }
+            .main-content { margin-left: 70px; padding: 20px 16px; }
+            .stats-grid { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
+        }
+        @media (max-width: 500px) {
+            .sidebar { width: 0; overflow: hidden; }
+            .main-content { margin-left: 0; padding: 14px; }
+            .stats-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sidebar-logo" onclick="navigateTo('dashboard')">
+            <div class="logo-icon"><i class="fas fa-plus"></i></div>
+            <h1>Medi<span>Care</span></h1>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-section">
+                <div class="nav-section-title">Main</div>
+                <div class="nav-item active" data-page="dashboard" onclick="navigateTo('dashboard')">
+                    <i class="fas fa-th-large"></i> <span>Dashboard</span>
+                </div>
+            </div>
+            <div class="nav-section">
+                <div class="nav-section-title">Management</div>
+                <div class="nav-item" data-page="patients" onclick="navigateTo('patients')">
+                    <i class="fas fa-user-injured"></i> <span>Patients</span>
+                </div>
+                <div class="nav-item" data-page="doctors" onclick="navigateTo('doctors')">
+                    <i class="fas fa-user-md"></i> <span>Doctors</span>
+                </div>
+                <div class="nav-item" data-page="appointments" onclick="navigateTo('appointments')">
+                    <i class="fas fa-calendar-check"></i> <span>Appointments</span>
+                    <span class="badge" id="appt-badge" style="display:none;">0</span>
+                </div>
+            </div>
+            <div class="nav-section">
+                <div class="nav-section-title">Records</div>
+                <div class="nav-item" data-page="ehr" onclick="navigateTo('ehr')">
+                    <i class="fas fa-notes-medical"></i> <span>EHR</span>
+                </div>
+                <div class="nav-item" data-page="prescriptions" onclick="navigateTo('prescriptions')">
+                    <i class="fas fa-prescription"></i> <span>Prescriptions</span>
+                </div>
+            </div>
+            <div class="nav-section">
+                <div class="nav-section-title">Finance</div>
+                <div class="nav-item" data-page="billing" onclick="navigateTo('billing')">
+                    <i class="fas fa-file-invoice-dollar"></i> <span>Billing</span>
+                </div>
+                <div class="nav-item" data-page="insurance" onclick="navigateTo('insurance')">
+                    <i class="fas fa-shield-alt"></i> <span>Insurance</span>
+                </div>
+            </div>
+        </nav>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content" id="main-content"></main>
+
+    <!-- TOAST CONTAINER -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- MODAL OVERLAY -->
+    <div class="modal-overlay" id="modal-overlay" style="display:none;">
+        <div class="modal" id="modal-content"></div>
+    </div>
+
+    <script>
+        (function() {
+            // ---------- DATABASE ----------
+            const DB_KEY = 'medicare_db_full';
+            function getDB() {
+                const raw = localStorage.getItem(DB_KEY);
+                if (raw) return JSON.parse(raw);
+                const initial = {
+                    patients: [],
+                    doctors: [],
+                    appointments: [],
+                    ehr: [],
+                    prescriptions: [],
+                    bills: [],
+                    idCounter: { patients:0, doctors:0, appointments:0, ehr:0, prescriptions:0, bills:0 }
+                };
+                saveDB(initial);
+                return initial;
+            }
+            function saveDB(db) { localStorage.setItem(DB_KEY, JSON.stringify(db)); }
+            function generateId(entity) {
+                const db = getDB();
+                db.idCounter[entity] = (db.idCounter[entity] || 0) + 1;
+                saveDB(db);
+                return db.idCounter[entity];
+            }
+
+            // Seed initial data
+            function seedIfEmpty() {
+                const db = getDB();
+                if (db.patients.length === 0) {
+                    db.patients = [
+                        { id: generateId('patients'), name: 'Brijesh Kumar', phone: '9876543210', email: 'brijesh@gmail.com', policyNumber: 'HDFC123' },
+                        { id: generateId('patients'), name: 'Priya Sharma', phone: '9123456780', email: 'priya@gmail.com', policyNumber: 'ICICI456' },
+                        { id: generateId('patients'), name: 'Amit Patel', phone: '9988776655', email: 'amit@gmail.com', policyNumber: 'STAR789' }
+                    ];
+                    db.doctors = [
+                        { id: generateId('doctors'), name: 'Dr. Rajesh Sharma', specialization: 'Cardiology', availableSlots: ['09:00','10:00','11:00','14:00'] },
+                        { id: generateId('doctors'), name: 'Dr. Sneha Gupta', specialization: 'Neurology', availableSlots: ['10:00','12:00','15:00'] },
+                        { id: generateId('doctors'), name: 'Dr. Vikram Singh', specialization: 'Orthopedics', availableSlots: ['09:00','11:00','16:00'] },
+                        { id: generateId('doctors'), name: 'Dr. Ananya Reddy', specialization: 'Pediatrics', availableSlots: ['08:00','10:00','13:00','17:00'] }
+                    ];
+                    db.appointments = [
+                        { id: generateId('appointments'), patientId:1, doctorId:1, patientName:'Brijesh Kumar', doctorName:'Dr. Rajesh Sharma', date:'2026-06-12', time:'10:00', status:'confirmed' },
+                        { id: generateId('appointments'), patientId:2, doctorId:2, patientName:'Priya Sharma', doctorName:'Dr. Sneha Gupta', date:'2026-06-13', time:'12:00', status:'confirmed' }
+                    ];
+                    db.ehr = [
+                        { id: generateId('ehr'), patientId:1, patientName:'Brijesh Kumar', diagnosis:'Viral Fever', treatment:'Paracetamol 500mg', visitDate:'2026-06-12' }
+                    ];
+                    db.prescriptions = [
+                        { id: generateId('prescriptions'), patientId:1, patientName:'Brijesh Kumar', medicines:'Paracetamol 500mg', dosage:'2 times/day', doctorNotes:'After meal', date:'2026-06-12' }
+                    ];
+                    db.bills = [
+                        { id: generateId('bills'), patientId:1, patientName:'Brijesh Kumar', amount:1000, policyNumber:'HDFC123', discountedAmount:500, status:'UNPAID', date:'2026-06-12' },
+                        { id: generateId('bills'), patientId:2, patientName:'Priya Sharma', amount:2000, policyNumber:'ICICI456', discountedAmount:2000, status:'PAID', date:'2026-06-13' }
+                    ];
+                    db.idCounter = { patients:3, doctors:4, appointments:2, ehr:1, prescriptions:1, bills:2 };
+                    saveDB(db);
+                }
+            }
+            seedIfEmpty();
+
+            // ---------- NAVIGATION ----------
+            let currentPage = 'dashboard';
+            window.navigateTo = function(page) {
+                currentPage = page;
+                document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+                const navItem = document.querySelector(`[data-page="${page}"]`);
+                if (navItem) navItem.classList.add('active');
+                renderPage(page);
+                updateBadges();
+            };
+            function updateBadges() {
+                const db = getDB();
+                const pending = db.appointments.filter(a => a.status === 'confirmed').length;
+                const badge = document.getElementById('appt-badge');
+                if (pending > 0) { badge.style.display = 'inline'; badge.textContent = pending; }
+                else { badge.style.display = 'none'; }
+            }
+
+            // ---------- TOAST ----------
+            function showToast(msg, type='info') {
+                const container = document.getElementById('toast-container');
+                const toast = document.createElement('div');
+                toast.className = `toast toast-${type}`;
+                toast.textContent = msg;
+                container.appendChild(toast);
+                setTimeout(() => toast.remove(), 3000);
+            }
+
+            // ---------- MODAL ----------
+            function openModal(title, bodyHTML, onSave) {
+                const overlay = document.getElementById('modal-overlay');
+                const content = document.getElementById('modal-content');
+                content.innerHTML = `
+                    <h3>${title}</h3>
+                    <div>${bodyHTML}</div>
+                    <div class="modal-actions">
+                        <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+                        <button class="btn btn-primary" id="modal-save-btn">Save</button>
+                    </div>
+                `;
+                overlay.style.display = 'flex';
+                document.getElementById('modal-save-btn').addEventListener('click', () => {
+                    if (onSave) onSave();
+                    closeModal();
+                });
+            }
+            window.closeModal = function() {
+                document.getElementById('modal-overlay').style.display = 'none';
+            };
+            document.getElementById('modal-overlay').addEventListener('click', function(e) {
+                if (e.target === this) closeModal();
+            });
+
+            function confirmDelete(msg, onConfirm) {
+                const overlay = document.getElementById('modal-overlay');
+                const content = document.getElementById('modal-content');
+                content.innerHTML = `
+                    <h3><i class="fas fa-exclamation-triangle" style="color:#c62828;"></i> Confirm Delete</h3>
+                    <p style="color:#64748b;">${msg}</p>
+                    <div class="modal-actions">
+                        <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+                        <button class="btn btn-danger" id="modal-confirm-btn">Delete</button>
+                    </div>
+                `;
+                overlay.style.display = 'flex';
+                document.getElementById('modal-confirm-btn').addEventListener('click', () => {
+                    if (onConfirm) onConfirm();
+                    closeModal();
+                });
+            }
+
+            // ---------- RENDER PAGES ----------
+            function renderPage(page) {
+                const container = document.getElementById('main-content');
+                switch(page) {
+                    case 'dashboard': renderDashboard(container); break;
+                    case 'patients': renderPatients(container); break;
+                    case 'doctors': renderDoctors(container); break;
+                    case 'appointments': renderAppointments(container); break;
+                    case 'ehr': renderEHR(container); break;
+                    case 'prescriptions': renderPrescriptions(container); break;
+                    case 'billing': renderBilling(container); break;
+                    case 'insurance': renderInsurance(container); break;
+                    default: renderDashboard(container);
+                }
+                updateBadges();
+            }
+
+            // ---------- DASHBOARD ----------
+            function renderDashboard(container) {
+                const db = getDB();
+                const stats = [
+                    { label:'Patients', count:db.patients.length, icon:'fa-user-injured', color:'#1565c0', bg:'#e3f2fd', page:'patients' },
+                    { label:'Doctors', count:db.doctors.length, icon:'fa-user-md', color:'#00897b', bg:'#e0f2f1', page:'doctors' },
+                    { label:'Appointments', count:db.appointments.length, icon:'fa-calendar-check', color:'#6a1b9a', bg:'#f3e5f5', page:'appointments' },
+                    { label:'Pending Bills', count:db.bills.filter(b=>b.status==='UNPAID').length, icon:'fa-file-invoice', color:'#c62828', bg:'#ffebee', page:'billing' },
+                    { label:'EHR Records', count:db.ehr.length, icon:'fa-notes-medical', color:'#f57f17', bg:'#fff8e1', page:'ehr' },
+                    { label:'Prescriptions', count:db.prescriptions.length, icon:'fa-prescription', color:'#2e7d32', bg:'#e8f5e9', page:'prescriptions' }
+                ];
+                container.innerHTML = `
+                    <div class="page-header">
+                        <div><h2>Dashboard</h2><p class="breadcrumb">Overview of hospital activities</p></div>
+                        <span style="color:#64748b;">${new Date().toLocaleDateString('en-IN',{weekday:'long',year:'numeric',month:'long',day:'numeric'})}</span>
+                    </div>
+                    <div class="stats-grid">
+                        ${stats.map(s=>`
+                            <div class="stat-card" onclick="navigateTo('${s.page}')">
+                                <div class="stat-icon" style="background:${s.bg}; color:${s.color};"><i class="fas ${s.icon}"></i></div>
+                                <div class="stat-info"><h3>${s.count}</h3><p>${s.label}</p></div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="card">
+                        <div class="card-header"><h3><i class="fas fa-clock"></i> Recent Appointments</h3></div>
+                        ${db.appointments.length===0 ? '<div class="empty-state">No appointments yet.</div>' : `
+                        <table><thead><tr><th>ID</th><th>Patient</th><th>Doctor</th><th>Date</th><th>Time</th><th>Status</th></tr></thead>
+                        <tbody>${db.appointments.slice(-5).reverse().map(a=>`
+                            <tr>
+                                <td>#${a.id}</td><td>${a.patientName}</td><td>${a.doctorName}</td>
+                                <td>${a.date}</td><td>${a.time}</td>
+                                <td><span class="status-badge status-${a.status}">${a.status}</span></td>
+                            </tr>`).join('')}</tbody></table>`}
+                    </div>
+                `;
+            }
+
+            // ---------- PATIENTS ----------
+            function renderPatients(container) {
+                const db = getDB();
+                container.innerHTML = `
+                    <div class="page-header">
+                        <div><h2><i class="fas fa-user-injured"></i> Patients</h2></div>
+                        <button class="btn btn-primary" onclick="showPatientForm()"><i class="fas fa-plus"></i> Add Patient</button>
+                    </div>
+                    <div class="card">
+                        <div class="card-header"><h3>All Patients (${db.patients.length})</h3></div>
+                        ${db.patients.length===0 ? '<div class="empty-state">No patients registered.</div>' : `
+                        <table><thead><tr><th>ID</th><th>Name</th><th>Phone</th><th>Email</th><th>Policy #</th><th>Actions</th></tr></thead>
+                        <tbody>${db.patients.map(p=>`
+                            <tr>
+                                <td>#${p.id}</td><td><strong>${p.name}</strong></td>
+                                <td>${p.phone}</td><td>${p.email}</td>
+                                <td><span class="tag">${p.policyNumber||'N/A'}</span></td>
+                                <td>
+                                    <button class="btn btn-outline btn-xs" onclick="showPatientForm(${p.id})"><i class="fas fa-edit"></i></button>
+                                    <button class="btn btn-danger btn-xs" onclick="deletePatient(${p.id})"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>`).join('')}</tbody></table>`}
+                    </div>
+                `;
+            }
+            window.showPatientForm = function(editId=null) {
+                const db = getDB();
+                const patient = editId ? db.patients.find(p=>p.id===editId) : null;
+                const body = `
+                    <div class="form-group"><label>Full Name</label><input id="pname" value="${patient?patient.name:''}" required></div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Phone</label><input id="pphone" value="${patient?patient.phone:''}"></div>
+                        <div class="form-group"><label>Email</label><input id="pemail" value="${patient?patient.email:''}"></div>
+                    </div>
+                    <div class="form-group"><label>Policy Number</label><input id="ppolicy" value="${patient?patient.policyNumber:''}"></div>
+                `;
+                openModal(editId?'Edit Patient':'New Patient', body, () => {
+                    const name = document.getElementById('pname').value.trim();
+                    const phone = document.getElementById('pphone').value.trim();
+                    const email = document.getElementById('pemail').value.trim();
+                    const policy = document.getElementById('ppolicy').value.trim();
+                    if(!name) { showToast('Name is required','error'); return; }
+                    const db = getDB();
+                    if(editId) {
+                        const idx = db.patients.findIndex(p=>p.id===editId);
+                        if(idx>-1) { db.patients[idx] = {...db.patients[idx], name, phone, email, policyNumber:policy}; saveDB(db); showToast('Patient updated','success'); }
+                    } else {
+                        const newPatient = { id: generateId('patients'), name, phone, email, policyNumber:policy };
+                        db.patients.push(newPatient); saveDB(db); showToast('Patient created','success');
+                    }
+                    renderPage('patients');
+                });
+            };
+            window.deletePatient = function(id) {
+                confirmDelete('Remove this patient and all related records?', ()=>{
+                    const db = getDB();
+                    db.patients = db.patients.filter(p=>p.id!==id);
+                    saveDB(db); showToast('Patient deleted','info'); renderPage('patients');
+                });
+            };
+
+            // ---------- DOCTORS ----------
+            function renderDoctors(container) {
+                const db = getDB();
+                container.innerHTML = `
+                    <div class="page-header">
+                        <div><h2><i class="fas fa-user-md"></i> Doctors</h2></div>
+                        <button class="btn btn-primary" onclick="showDoctorForm()"><i class="fas fa-plus"></i> Add Doctor</button>
+                    </div>
+                    <div class="card">
+                        <div class="card-header"><h3>All Doctors (${db.doctors.length})</h3>
+                        <div><input type="text" id="slot-filter" placeholder="Filter by available slot e.g. 10:00" style="padding:6px 10px; border:1px solid #ccc; border-radius:6px; width:200px;">
+                        <button class="btn btn-sm btn-outline" onclick="filterDoctorsBySlot()">Check Availability</button></div>
+                        </div>
+                        <div id="doctor-table-container">
+                        ${renderDoctorTable(db.doctors)}
+                        </div>
+                    </div>
+                `;
+            }
+            function renderDoctorTable(doctors) {
+                if(doctors.length===0) return '<div class="empty-state">No doctors found.</div>';
+                return `<table><thead><tr><th>ID</th><th>Name</th><th>Specialization</th><th>Available Slots</th><th>Actions</th></tr></thead>
+                <tbody>${doctors.map(d=>`
+                    <tr>
+                        <td>#${d.id}</td><td><strong>${d.name}</strong></td><td>${d.specialization}</td>
+                        <td>${(d.availableSlots||[]).map(s=>`<span class="tag">${s}</span>`).join(' ')}</td>
+                        <td>
+                            <button class="btn btn-outline btn-xs" onclick="showDoctorForm(${d.id})"><i class="fas fa-edit"></i></button>
+                            <button class="btn btn-danger btn-xs" onclick="deleteDoctor(${d.id})"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>`).join('')}</tbody></table>`;
+            }
+            window.filterDoctorsBySlot = function() {
+                const slot = document.getElementById('slot-filter').value.trim();
+                const db = getDB();
+                if(!slot) { document.getElementById('doctor-table-container').innerHTML = renderDoctorTable(db.doctors); return; }
+                const filtered = db.doctors.filter(d => (d.availableSlots||[]).includes(slot));
+                document.getElementById('doctor-table-container').innerHTML = renderDoctorTable(filtered);
+                showToast(`Found ${filtered.length} doctor(s) available at ${slot}`, 'info');
+            };
+            window.showDoctorForm = function(editId=null) {
+                const db = getDB();
+                const doctor = editId ? db.doctors.find(d=>d.id===editId) : null;
+                const body = `
+                    <div class="form-group"><label>Full Name</label><input id="dname" value="${doctor?doctor.name:''}" required></div>
+                    <div class="form-group"><label>Specialization</label><input id="dspec" value="${doctor?doctor.specialization:''}"></div>
+                    <div class="form-group"><label>Available Slots (comma separated, 24h format)</label>
+                    <input id="dslots" value="${doctor?(doctor.availableSlots||[]).join(','):''}" placeholder="09:00,10:00,14:00"></div>
+                `;
+                openModal(editId?'Edit Doctor':'New Doctor', body, () => {
+                    const name = document.getElementById('dname').value.trim();
+                    const spec = document.getElementById('dspec').value.trim();
+                    const slotsRaw = document.getElementById('dslots').value.trim();
+                    const slots = slotsRaw ? slotsRaw.split(',').map(s=>s.trim()).filter(s=>s) : [];
+                    if(!name) { showToast('Name is required','error'); return; }
+                    const db = getDB();
+                    if(editId) {
+                        const idx = db.doctors.findIndex(d=>d.id===editId);
+                        if(idx>-1) { db.doctors[idx] = {...db.doctors[idx], name, specialization:spec, availableSlots:slots}; saveDB(db); showToast('Doctor updated','success'); }
+                    } else {
+                        const newDoctor = { id: generateId('doctors'), name, specialization:spec, availableSlots:slots };
+                        db.doctors.push(newDoctor); saveDB(db); showToast('Doctor created','success');
+                    }
+                    renderPage('doctors');
+                });
+            };
+            window.deleteDoctor = function(id) {
+                confirmDelete('Remove this doctor?', ()=>{
+                    const db = getDB();
+                    db.doctors = db.doctors.filter(d=>d.id!==id);
+                    saveDB(db); showToast('Doctor deleted','info'); renderPage('doctors');
+                });
+            };
+
+            // ---------- APPOINTMENTS ----------
+            function renderAppointments(container) {
+                const db = getDB();
+                container.innerHTML = `
+                    <div class="page-header">
+                        <div><h2><i class="fas fa-calendar-check"></i> Appointments</h2></div>
+                        <button class="btn btn-primary" onclick="showBookAppointmentModal()"><i class="fas fa-plus"></i> Book Appointment</button>
+                    </div>
+                    <div class="card">
+                        <div class="card-header"><h3>All Appointments (${db.appointments.length})</h3>
+                        <select id="appt-filter" onchange="filterAppointments()" style="padding:6px 10px; border-radius:6px; border:1px solid #ccc;">
+                            <option value="all">All</option>
+                            <option value="confirmed">Confirmed</option>
+                            <option value="cancelled">Cancelled</option>
+                        </select>
+                        </div>
+                        <div id="appt-table-container">${renderAppointmentTable(db.appointments)}</div>
+                    </div>
+                `;
+            }
+            function renderAppointmentTable(appts) {
+                if(appts.length===0) return '<div class="empty-state">No appointments found.</div>';
+                return `<table><thead><tr><th>ID</th><th>Patient</th><th>Doctor</th><th>Date</th><th>Time</th><th>Status</th><th>Actions</th></tr></thead>
+                <tbody>${appts.map(a=>`
+                    <tr>
+                        <td>#${a.id}</td><td>${a.patientName}</td><td>${a.doctorName}</td>
+                        <td>${a.date}</td><td>${a.time}</td>
+                        <td><span class="status-badge status-${a.status}">${a.status}</span></td>
+                        <td>
+                            ${a.status==='confirmed' ? `<button class="btn btn-danger btn-xs" onclick="cancelAppointment(${a.id})"><i class="fas fa-times"></i> Cancel</button>` : ''}
+                        </td>
+                    </tr>`).join('')}</tbody></table>`;
+            }
+            window.filterAppointments = function() {
+                const filter = document.getElementById('appt-filter').value;
+                const db = getDB();
+                let filtered = db.appointments;
+                if(filter !== 'all') filtered = db.appointments.filter(a=>a.status===filter);
+                document.getElementById('appt-table-container').innerHTML = renderAppointmentTable(filtered);
+            };
+            window.showBookAppointmentModal = function() {
+                const db = getDB();
+                const patientOptions = db.patients.map(p=>`<option value="${p.id}">${p.name} (ID:${p.id})</option>`).join('');
+                const doctorOptions = db.doctors.map(d=>`<option value="${d.id}">${d.name} - ${d.specialization}</option>`).join('');
+                const body = `
+                    <div class="form-group"><label>Patient</label><select id="apt-patient">${patientOptions}</select></div>
+                    <div class="form-group"><label>Doctor</label><select id="apt-doctor">${doctorOptions}</select></div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Date</label><input type="date" id="apt-date" required></div>
+                        <div class="form-group"><label>Time</label><input type="time" id="apt-time" required></div>
+                    </div>
+                `;
+                openModal('Book Appointment', body, () => {
+                    const patientId = parseInt(document.getElementById('apt-patient').value);
+                    const doctorId = parseInt(document.getElementById('apt-doctor').value);
+                    const date = document.getElementById('apt-date').value;
+                    const time = document.getElementById('apt-time').value;
+                    if(!date || !time) { showToast('Date and time required','error'); return; }
+                    const patient = db.patients.find(p=>p.id===patientId);
+                    const doctor = db.doctors.find(d=>d.id===doctorId);
+                    if(!patient || !doctor) { showToast('Invalid selection','error'); return; }
+                    // Check availability
+                    if(!(doctor.availableSlots||[]).includes(time)) {
+                        showToast('Doctor not available at this time slot','error');
+                        return;
+                    }
+                    const newAppt = { id: generateId('appointments'), patientId, doctorId, patientName:patient.name, doctorName:doctor.name, date, time, status:'confirmed' };
+                    db.appointments.push(newAppt);
+                    saveDB(db);
+                    showToast('Appointment booked','success');
+                    renderPage('appointments');
+                });
+            };
+            window.cancelAppointment = function(id) {
+                confirmDelete('Cancel this appointment?', ()=>{
+                    const db = getDB();
+                    const appt = db.appointments.find(a=>a.id===id);
+                    if(appt) { appt.status = 'cancelled'; saveDB(db); showToast('Appointment cancelled','info'); renderPage('appointments'); }
+                });
+            };
+
+            // ---------- EHR ----------
+            function renderEHR(container) {
+                const db = getDB();
+                container.innerHTML = `
+                    <div class="page-header">
+                        <div><h2><i class="fas fa-notes-medical"></i> Electronic Health Records</h2></div>
+                        <button class="btn btn-primary" onclick="showEHRForm()"><i class="fas fa-plus"></i> Add EHR</button>
+                    </div>
+                    <div class="card">
+                        <div class="card-header"><h3>All EHR Records (${db.ehr.length})</h3>
+                        <select id="ehr-patient-filter" onchange="filterEHR()" style="padding:6px; border-radius:6px;">
+                            <option value="all">All Patients</option>
+                            ${db.patients.map(p=>`<option value="${p.id}">${p.name}</option>`).join('')}
+                        </select></div>
+                        <div id="ehr-table-container">${renderEHRTable(db.ehr)}</div>
+                    </div>
+                `;
+            }
+            function renderEHRTable(records) {
+                if(records.length===0) return '<div class="empty-state">No EHR records found.</div>';
+                return `<table><thead><tr><th>ID</th><th>Patient</th><th>Diagnosis</th><th>Treatment</th><th>Visit Date</th><th>Actions</th></tr></thead>
+                <tbody>${records.map(r=>`
+                    <tr>
+                        <td>#${r.id}</td><td>${r.patientName}</td><td>${r.diagnosis}</td><td>${r.treatment}</td><td>${r.visitDate}</td>
+                        <td>
+                            <button class="btn btn-outline btn-xs" onclick="showEHRForm(${r.id})"><i class="fas fa-edit"></i></button>
+                            <button class="btn btn-danger btn-xs" onclick="deleteEHR(${r.id})"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>`).join('')}</tbody></table>`;
+            }
+            window.filterEHR = function() {
+                const filterId = document.getElementById('ehr-patient-filter').value;
+                const db = getDB();
+                const filtered = filterId==='all' ? db.ehr : db.ehr.filter(e=>e.patientId===parseInt(filterId));
+                document.getElementById('ehr-table-container').innerHTML = renderEHRTable(filtered);
+            };
+            window.showEHRForm = function(editId=null) {
+                const db = getDB();
+                const record = editId ? db.ehr.find(e=>e.id===editId) : null;
+                const patientOptions = db.patients.map(p=>`<option value="${p.id}" ${record&&record.patientId===p.id?'selected':''}>${p.name}</option>`).join('');
+                const body = `
+                    <div class="form-group"><label>Patient</label><select id="ehr-patient">${patientOptions}</select></div>
+                    <div class="form-group"><label>Diagnosis</label><input id="ehr-diag" value="${record?record.diagnosis:''}"></div>
+                    <div class="form-group"><label>Treatment</label><input id="ehr-treat" value="${record?record.treatment:''}"></div>
+                    <div class="form-group"><label>Visit Date</label><input type="date" id="ehr-date" value="${record?record.visitDate:''}"></div>
+                `;
+                openModal(editId?'Edit EHR':'New EHR', body, () => {
+                    const patientId = parseInt(document.getElementById('ehr-patient').value);
+                    const diagnosis = document.getElementById('ehr-diag').value.trim();
+                    const treatment = document.getElementById('ehr-treat').value.trim();
+                    const visitDate = document.getElementById('ehr-date').value;
+                    const patient = db.patients.find(p=>p.id===patientId);
+                    if(!patient) { showToast('Patient required','error'); return; }
+                    const db2 = getDB();
+                    if(editId) {
+                        const idx = db2.ehr.findIndex(e=>e.id===editId);
+                        if(idx>-1) { db2.ehr[idx] = {...db2.ehr[idx], patientId, patientName:patient.name, diagnosis, treatment, visitDate}; saveDB(db2); showToast('EHR updated','success'); }
+                    } else {
+                        const newEHR = { id: generateId('ehr'), patientId, patientName:patient.name, diagnosis, treatment, visitDate };
+                        db2.ehr.push(newEHR); saveDB(db2); showToast('EHR created','success');
+                    }
+                    renderPage('ehr');
+                });
+            };
+            window.deleteEHR = function(id) {
+                confirmDelete('Delete this EHR record?', ()=>{
+                    const db = getDB();
+                    db.ehr = db.ehr.filter(e=>e.id!==id);
+                    saveDB(db); showToast('EHR deleted','info'); renderPage('ehr');
+                });
+            };
+
+            // ---------- PRESCRIPTIONS ----------
+            function renderPrescriptions(container) {
+                const db = getDB();
+                container.innerHTML = `
+                    <div class="page-header">
+                        <div><h2><i class="fas fa-prescription"></i> Prescriptions</h2></div>
+                        <button class="btn btn-primary" onclick="showPrescriptionForm()"><i class="fas fa-plus"></i> Add Prescription</button>
+                    </div>
+                    <div class="card">
+                        <div class="card-header"><h3>All Prescriptions (${db.prescriptions.length})</h3>
+                        <select id="presc-patient-filter" onchange="filterPrescriptions()" style="padding:6px; border-radius:6px;">
+                            <option value="all">All Patients</option>
+                            ${db.patients.map(p=>`<option value="${p.id}">${p.name}</option>`).join('')}
+                        </select></div>
+                        <div id="presc-table-container">${renderPrescriptionTable(db.prescriptions)}</div>
+                    </div>
+                `;
+            }
+            function renderPrescriptionTable(prescriptions) {
+                if(prescriptions.length===0) return '<div class="empty-state">No prescriptions found.</div>';
+                return `<table><thead><tr><th>ID</th><th>Patient</th><th>Medicines</th><th>Dosage</th><th>Notes</th><th>Date</th><th>Actions</th></tr></thead>
+                <tbody>${prescriptions.map(p=>`
+                    <tr>
+                        <td>#${p.id}</td><td>${p.patientName}</td><td>${p.medicines}</td><td>${p.dosage}</td><td>${p.doctorNotes||''}</td><td>${p.date}</td>
+                        <td>
+                            <button class="btn btn-outline btn-xs" onclick="showPrescriptionForm(${p.id})"><i class="fas fa-edit"></i></button>
+                            <button class="btn btn-danger btn-xs" onclick="deletePrescription(${p.id})"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>`).join('')}</tbody></table>`;
+            }
+            window.filterPrescriptions = function() {
+                const filterId = document.getElementById('presc-patient-filter').value;
+                const db = getDB();
+                const filtered = filterId==='all' ? db.prescriptions : db.prescriptions.filter(p=>p.patientId===parseInt(filterId));
+                document.getElementById('presc-table-container').innerHTML = renderPrescriptionTable(filtered);
+            };
+            window.showPrescriptionForm = function(editId=null) {
+                const db = getDB();
+                const presc = editId ? db.prescriptions.find(p=>p.id===editId) : null;
+                const patientOptions = db.patients.map(p=>`<option value="${p.id}" ${presc&&presc.patientId===p.id?'selected':''}>${p.name}</option>`).join('');
+                const body = `
+                    <div class="form-group"><label>Patient</label><select id="presc-patient">${patientOptions}</select></div>
+                    <div class="form-group"><label>Medicines</label><input id="presc-med" value="${presc?presc.medicines:''}"></div>
+                    <div class="form-group"><label>Dosage</label><input id="presc-dosage" value="${presc?presc.dosage:''}"></div>
+                    <div class="form-group"><label>Doctor Notes</label><textarea id="presc-notes" rows="2">${presc?presc.doctorNotes||'':''}</textarea></div>
+                    <div class="form-group"><label>Date</label><input type="date" id="presc-date" value="${presc?presc.date:''}"></div>
+                `;
+                openModal(editId?'Edit Prescription':'New Prescription', body, () => {
+                    const patientId = parseInt(document.getElementById('presc-patient').value);
+                    const medicines = document.getElementById('presc-med').value.trim();
+                    const dosage = document.getElementById('presc-dosage').value.trim();
+                    const doctorNotes = document.getElementById('presc-notes').value.trim();
+                    const date = document.getElementById('presc-date').value;
+                    const patient = db.patients.find(p=>p.id===patientId);
+                    if(!patient) { showToast('Patient required','error'); return; }
+                    const db2 = getDB();
+                    if(editId) {
+                        const idx = db2.prescriptions.findIndex(p=>p.id===editId);
+                        if(idx>-1) { db2.prescriptions[idx] = {...db2.prescriptions[idx], patientId, patientName:patient.name, medicines, dosage, doctorNotes, date}; saveDB(db2); showToast('Prescription updated','success'); }
+                    } else {
+                        const newPresc = { id: generateId('prescriptions'), patientId, patientName:patient.name, medicines, dosage, doctorNotes, date };
+                        db2.prescriptions.push(newPresc); saveDB(db2); showToast('Prescription created','success');
+                    }
+                    renderPage('prescriptions');
+                });
+            };
+            window.deletePrescription = function(id) {
+                confirmDelete('Delete this prescription?', ()=>{
+                    const db = getDB();
+                    db.prescriptions = db.prescriptions.filter(p=>p.id!==id);
+                    saveDB(db); showToast('Prescription deleted','info'); renderPage('prescriptions');
+                });
+            };
+
+            // ---------- BILLING ----------
+            function renderBilling(container) {
+                const db = getDB();
+                container.innerHTML = `
+                    <div class="page-header">
+                        <div><h2><i class="fas fa-file-invoice-dollar"></i> Billing</h2></div>
+                        <button class="btn btn-primary" onclick="showCreateBillModal()"><i class="fas fa-plus"></i> Generate Bill</button>
+                    </div>
+                    <div class="card">
+                        <div class="card-header"><h3>All Bills (${db.bills.length})</h3></div>
+                        ${db.bills.length===0 ? '<div class="empty-state">No bills.</div>' : `
+                        <table><thead><tr><th>ID</th><th>Patient</th><th>Amount</th><th>Discounted</th><th>Policy</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead>
+                        <tbody>${db.bills.map(b=>`
+                            <tr>
+                                <td>#${b.id}</td><td>${b.patientName}</td><td>₹${b.amount}</td><td>₹${b.discountedAmount}</td>
+                                <td>${b.policyNumber||'N/A'}</td>
+                                <td><span class="status-badge status-${b.status==='PAID'?'paid':'unpaid'}">${b.status}</span></td>
+                                <td>${b.date}</td>
+                                <td>
+                                    ${b.status==='UNPAID' ? `<button class="btn btn-success btn-xs" onclick="payBill(${b.id})"><i class="fas fa-check"></i> Pay</button>` : ''}
+                                    <button class="btn btn-danger btn-xs" onclick="deleteBill(${b.id})"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>`).join('')}</tbody></table>`}
+                    </div>
+                `;
+            }
+            window.showCreateBillModal = function() {
+                const db = getDB();
+                const patientOptions = db.patients.map(p=>`<option value="${p.id}">${p.name}</option>`).join('');
+                const body = `
+                    <div class="form-group"><label>Patient</label><select id="bill-patient">${patientOptions}</select></div>
+                    <div class="form-group"><label>Amount (₹)</label><input type="number" id="bill-amount" min="0"></div>
+                `;
+                openModal('Generate Bill', body, () => {
+                    const patientId = parseInt(document.getElementById('bill-patient').value);
+                    const amount = parseFloat(document.getElementById('bill-amount').value);
+                    if(!amount || amount<=0) { showToast('Valid amount required','error'); return; }
+                    const patient = db.patients.find(p=>p.id===patientId);
+                    if(!patient) { showToast('Patient required','error'); return; }
+                    // Insurance validation
+                    let discounted = amount;
+                    if(patient.policyNumber) {
+                        const valid = validateInsurancePolicy(patient.policyNumber);
+                        if(valid) discounted = amount * 0.5; // 50% coverage
+                    }
+                    const newBill = {
+                        id: generateId('bills'),
+                        patientId: patient.id,
+                        patientName: patient.name,
+                        amount,
+                        policyNumber: patient.policyNumber,
+                        discountedAmount: discounted,
+                        status: 'UNPAID',
+                        date: new Date().toISOString().split('T')[0]
+                    };
+                    db.bills.push(newBill);
+                    saveDB(db);
+                    showToast(`Bill generated. Amount: ₹${discounted}`, 'success');
+                    renderPage('billing');
+                });
+            };
+            window.payBill = function(id) {
+                const db = getDB();
+                const bill = db.bills.find(b=>b.id===id);
+                if(bill) { bill.status = 'PAID'; saveDB(db); showToast('Bill paid successfully','success'); renderPage('billing'); }
+            };
+            window.deleteBill = function(id) {
+                confirmDelete('Delete this bill?', ()=>{
+                    const db = getDB();
+                    db.bills = db.bills.filter(b=>b.id!==id);
+                    saveDB(db); showToast('Bill deleted','info'); renderPage('billing');
+                });
+            };
+
+            // ---------- INSURANCE ----------
+            function renderInsurance(container) {
+                container.innerHTML = `
+                    <div class="page-header">
+                        <div><h2><i class="fas fa-shield-alt"></i> Insurance Validation</h2></div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header"><h3>Validate Policy</h3></div>
+                        <div style="display:flex; gap:10px; align-items:center;">
+                            <input type="text" id="policy-input" placeholder="Enter policy number e.g. HDFC123" style="padding:10px; border:2px solid #ccc; border-radius:8px; flex:1;">
+                            <button class="btn btn-primary" onclick="validatePolicyUI()"><i class="fas fa-search"></i> Validate</button>
+                        </div>
+                        <div id="validation-result" style="margin-top:16px;"></div>
+                    </div>
+                `;
+            }
+            window.validatePolicyUI = function() {
+                const policy = document.getElementById('policy-input').value.trim();
+                const resultDiv = document.getElementById('validation-result');
+                if(!policy) { resultDiv.innerHTML = '<p style="color:#c62828;">Please enter a policy number.</p>'; return; }
+                const isValid = validateInsurancePolicy(policy);
+                if(isValid) {
+                    resultDiv.innerHTML = `<div style="background:#e8f5e9; padding:16px; border-radius:8px;"><i class="fas fa-check-circle" style="color:#2e7d32;"></i> <strong>Valid Policy</strong><br>Policy Number: ${policy}<br>Coverage: ₹50,000 (50% discount applicable)</div>`;
+                } else {
+                    resultDiv.innerHTML = `<div style="background:#ffebee; padding:16px; border-radius:8px;"><i class="fas fa-times-circle" style="color:#c62828;"></i> <strong>Invalid Policy</strong><br>No coverage found for ${policy}.</div>`;
+                }
+            };
+            function validateInsurancePolicy(policyNumber) {
+                // Simulated: All policy numbers starting with HDFC, ICICI, STAR are valid
+                const validPrefixes = ['HDFC', 'ICICI', 'STAR'];
+                return validPrefixes.some(prefix => policyNumber.startsWith(prefix));
+            }
+
+            // ---------- INITIAL RENDER ----------
+            renderPage('dashboard');
+        })();
+    </script>
+</body>
+</html>

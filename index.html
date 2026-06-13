@@ -551,7 +551,7 @@
     <script>
         (function() {
             // ---------- CONFIGURATION ----------
-            const API_BASE_URL = 'http://localhost:8080'; // Change to your API base URL
+            const API_BASE_URL = 'http://localhost:8080'; // Set your real API base URL here
 
             // ---------- AUTH ----------
             const VALID_EMAIL = 'admin@healthcare.com';
@@ -720,7 +720,7 @@
                 }).catch(err => showToast('Failed to load dashboard', 'error'));
             }
 
-            // ---------- PATIENTS with integrated appointment booking ----------
+            // ---------- PATIENTS (with integrated appointment booking) ----------
             function renderPatients(container) {
                 showLoading(container);
                 apiGet('/patients').then(resp => {
@@ -811,7 +811,7 @@
                 });
             };
 
-            // ---------- BOOK APPOINTMENT FROM PATIENT SECTION ----------
+            // ---------- BOOK APPOINTMENT (shared between patients & appointments pages) ----------
             window.bookAppointmentForPatient = function(patientId = null) {
                 Promise.all([apiGet('/patients'), apiGet('/doctors')]).then(([pResp, dResp]) => {
                     const patients = pResp.data || [];
